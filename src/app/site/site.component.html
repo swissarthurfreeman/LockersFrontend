@@ -1,0 +1,106 @@
+<br>
+<div class="container">
+  <div class="jumbotron bg-dark text-white">
+      <h3 class="display-6">Bienvenue, John Doe !</h3><br>
+      <div class="container">  
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab" tabindex="-1">Consulter le parc des Casiers</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-toggle="tab" href="#edit" aria-selected="false" role="tab" tabindex="-1">Modifier le parc des Casiers</a>
+            </li>
+        </ul>
+        <br>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active show" id="home" role="home">
+                <div class="jumbotron bg-dark text-white">
+                    <p>Aaaah, {{siteName}}...</p>
+            
+                    <p>Cochez les localisations souhaitées :</p>
+                    <div *ngFor="let loc of locations" class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="checkbox-{{loc}}" checked="" name="{{loc}}">
+                        <label class="custom-control-label" for="checkbox-occupied">{{loc}}</label>
+                    </div>
+            
+                    <p>Cochez les types de casiers souhaités :</p>
+                    <div *ngFor="let stat of statuses" class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="checkbox-{{stat}}" checked="" name="{{stat}}">
+                        <label class="custom-control-label" for="checkbox-occupied">{{stat}}</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="tab-pane fade" id="edit" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-4">
+
+                        <p class="lead">Modifier les localisations</p>
+                        <fieldset>
+                            <div class="form-group form-inline" id="addLocationForm">
+                                <label class="col-form-label" for="newLocation">Rajouter une localisation :</label>
+                                <input type="text" required="required" maxlength="10" class="form-control input-sm" placeholder="Nouvelle Localisation" id="newLocationTextBox" data-site="Bastions">
+                                <!-- TODO use LocationService to query api... -->
+                                <button type="submit" class="btn btn-primary" onclick="" id="newLocationButton">Rajouter</button>
+                                <div id="addLocationConfirmation"></div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="exampleSelect1">Renommer une localisation</label>
+                                <select class="form-control" id="oldLocationName">
+                                    <!-- TODO get all locations at site... -->
+                                </select>
+                                <input type="text" maxlength="20" class="form-control input-sm" placeholder="Nouveau Nom" id="newLocationName">      
+                            </div>
+                            <button type="submit" class="btn btn-primary" onclick="renameLocation()">Renommer</button>
+                            <div id="locationRenameConfirmation"></div>
+                        </fieldset>
+                        <hr>
+                        <fieldset>
+                            <p class="lead">Modifier les Casiers :</p>
+                            <div class="form-group">
+                                <label class="col-form-label" for="inputDefault">Rajouter un casier :</label>
+                                <input type="text" class="form-control input-sm" placeholder="numéro" id="number" name="number">
+                                <label for="exampleSelect1">Localisation</label>
+                                <select class="form-control" id="location" name="location">
+                                        <!-- TODO get all locations at site... -->
+                                </select>
+                                <label for="exampleSelect1">Position Verticale</label>
+                                <select class="form-control" id="vertical_position" name="vertical_position">
+                                    <option>au sol</option>
+                                    <option>mi-hauteur</option>
+                                    <option>en hauteur</option>
+                                </select>
+                                <label for="exampleSelect1">Nécéssite Clef de loge</label>
+                                <select class="form-control" id="lock" name="lock">
+                                    <option>non</option>
+                                    <option>oui</option>
+                                </select>
+                                <label for="exampleSelect1">Dimensions (largeur/hauteur/profondeur) [cm]</label>
+                                <select class="form-control" id="dimensions" name="dimensions">
+                                        <!-- TODO change to string... -->
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" onclick="">Submit</button>
+                            <div id="lockerAdditionConfirmation"></div>
+                        </fieldset>
+                        <hr>
+                        <fieldset>
+                            <div class="form-group">
+                                <h2 class="danger">Zone Dangereuse</h2>
+                                <label for="exampleSelect1">Supprimer une localisation</label>
+                                <select class="form-control" id="locationToDelete" data-site="Bastions">
+                                    <!-- TODO get all locations at site... -->
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-danger" onclick="">Supprimer</button>
+                            <div id="locationDeletionConfirmation"></div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+      </div>
+  </div>
+</div>
