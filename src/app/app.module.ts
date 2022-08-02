@@ -9,13 +9,15 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ListComponent } from './list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SiteComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
@@ -28,4 +30,4 @@ import { ReactiveFormsModule } from '@angular/forms';
   providers: [],
   bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}
