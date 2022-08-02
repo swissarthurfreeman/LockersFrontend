@@ -1,0 +1,30 @@
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th scope="col">Status</th>
+                <th scope="col">Numéro</th>
+                <th scope="col">Localisation</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Date d'échéance</th>
+            </tr>
+            </thead>
+            <tbody>
+                <!-- Used to display contracted lockers -->
+                
+
+                <!-- used to generate free lockers rows -->
+                <tr *ngFor="let locker of lockers" class="table-success" name="0">
+                    <th scope="row">Libre</th>
+                    <td>{{locker.number}}</td>
+                    <td>{{locker.location.name}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
