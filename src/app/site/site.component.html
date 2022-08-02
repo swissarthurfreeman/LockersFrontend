@@ -2,7 +2,7 @@
 <div class="container">
   <div class="jumbotron bg-dark text-white">
       <h3 class="display-6">Bienvenue, John Doe !</h3><br>
-      <div class="container">  
+      <div class="container">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab" tabindex="-1">Consulter le parc des Casiers</a>
@@ -19,8 +19,8 @@
             
                     <p>Cochez les localisations souhaitées :</p>
                     <div *ngFor="let loc of locations" class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox-{{loc}}" checked="" name="{{loc}}">
-                        <label class="custom-control-label" for="checkbox-occupied">{{loc}}</label>
+                        <input type="checkbox" class="custom-control-input" id="checkbox-{{loc.name}}" checked="" name="{{loc.name}}">
+                        <label class="custom-control-label" for="checkbox-occupied">{{loc.name}}</label>
                     </div>
             
                     <p>Cochez les types de casiers souhaités :</p>
@@ -33,57 +33,58 @@
             <div class="tab-pane fade" id="edit" role="tabpanel">
                 <div class="row">
                     <div class="col-lg-4">
-
                         <p class="lead">Modifier les localisations</p>
-                        <fieldset>
+                        <form [formGroup]="locationForm" (ngSubmit)="submitLocation()">
                             <div class="form-group form-inline" id="addLocationForm">
                                 <label class="col-form-label" for="newLocation">Rajouter une localisation :</label>
-                                <input type="text" required="required" maxlength="10" class="form-control input-sm" placeholder="Nouvelle Localisation" id="newLocationTextBox" data-site="Bastions">
+                                <input id="name" formControlName="name" type="text" required="required" class="form-control input-sm" placeholder="Nouvelle Localisation">
                                 <!-- TODO use LocationService to query api... -->
                                 <button type="submit" class="btn btn-primary" onclick="" id="newLocationButton">Rajouter</button>
                                 <div id="addLocationConfirmation"></div>
                             </div>
-                        </fieldset>
+                        </form>
                         <fieldset>
                             <div class="form-group">
                                 <label for="exampleSelect1">Renommer une localisation</label>
                                 <select class="form-control" id="oldLocationName">
-                                    <!-- TODO get all locations at site... -->
+                                    <option *ngFor="let loc of locations">{{loc.name}}</option>
                                 </select>
-                                <input type="text" maxlength="20" class="form-control input-sm" placeholder="Nouveau Nom" id="newLocationName">      
+                                <input type="text" maxlength="20" class="form-control input-sm" placeholder="Nouveau Nom">      
                             </div>
                             <button type="submit" class="btn btn-primary" onclick="renameLocation()">Renommer</button>
                             <div id="locationRenameConfirmation"></div>
                         </fieldset>
                         <hr>
-                        <fieldset>
+                        <form [formGroup]="lockerForm" (ngSubmit)="submitLocker()">
                             <p class="lead">Modifier les Casiers :</p>
                             <div class="form-group">
                                 <label class="col-form-label" for="inputDefault">Rajouter un casier :</label>
-                                <input type="text" class="form-control input-sm" placeholder="numéro" id="number" name="number">
-                                <label for="exampleSelect1">Localisation</label>
-                                <select class="form-control" id="location" name="location">
-                                        <!-- TODO get all locations at site... -->
+                                <input formControlName="number" type="text" class="form-control input-sm" placeholder="numéro">
+                                
+                                <label>Localisation</label>
+                                <select formControlName="locationName" class="form-control">
+                                    <option *ngFor="let loc of locations">{{loc.name}}</option>
                                 </select>
-                                <label for="exampleSelect1">Position Verticale</label>
-                                <select class="form-control" id="vertical_position" name="vertical_position">
+                                
+                                <label>Position Verticale</label>
+                                <select formControlName="verticalPosition" class="form-control">
                                     <option>au sol</option>
                                     <option>mi-hauteur</option>
                                     <option>en hauteur</option>
                                 </select>
-                                <label for="exampleSelect1">Nécéssite Clef de loge</label>
-                                <select class="form-control" id="lock" name="lock">
+                                
+                                <label>Nécéssite Clef de loge</label>
+                                <select formControlName="lock" class="form-control">
                                     <option>non</option>
                                     <option>oui</option>
                                 </select>
-                                <label for="exampleSelect1">Dimensions (largeur/hauteur/profondeur) [cm]</label>
-                                <select class="form-control" id="dimensions" name="dimensions">
-                                        <!-- TODO change to string... -->
-                                </select>
+                                
+                                <label>Dimensions (largeur/hauteur/profondeur) [cm]</label>
+                                <input formControlName="dimensions" type="text" class="form-control input-sm" placeholder="Dimensions">
                             </div>
                             <button type="submit" class="btn btn-primary" onclick="">Submit</button>
                             <div id="lockerAdditionConfirmation"></div>
-                        </fieldset>
+                        </form>
                         <hr>
                         <fieldset>
                             <div class="form-group">
