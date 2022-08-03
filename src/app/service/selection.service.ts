@@ -10,4 +10,20 @@ export class SelectionService {
     constructor() {}
     locations!: Location[];
     statuses: string[] = ['Rupture de Contract', 'Occupé', 'Hors Service', 'Libre'];
+
+    activeLocations: Location[] = [];
+    activeStatuses: string[] = [];
+    siteName!: string;  // set by site component
+
+    activeStatus(status: string) {
+        if(this.activeStatuses.indexOf(status) == -1) {
+            this.activeStatuses.push(status);
+        }
+    }
+
+    activeLocationName(name: string) {
+        if(this.activeLocations.findIndex(loc => loc.name == name && loc.site == this.siteName) == -1) {
+            //this.activeLocations.push
+        }
+    }
 }

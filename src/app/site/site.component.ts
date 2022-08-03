@@ -24,8 +24,11 @@ export class SiteComponent implements OnInit {
   ) {}
 
   siteName!: string;
-  locations: Location[] = [];
-  statuses = ['Rupture de Contract', 'Occupé', 'Hors Service', 'Libre'];
+  locations: Location[] = []; // all locations at site
+  statuses = ['Rupture de Contract', 'Occupied', 'Hors Service', 'Libre'];
+
+  activeStatuses: string[] = [];
+  activeLocations: Location[] = [];
 
   listForm = this.formBuilder.group({});
 
@@ -36,6 +39,7 @@ export class SiteComponent implements OnInit {
     
     this.route.paramMap.subscribe(params => { 
       this.siteName = params.get('name')!;  // even though it may look like it could be null, it won't be (!)
+      this.selectionService.siteName = this.siteName;
     });
 
     this.locationService.getLocationsOf(this.siteName)
@@ -58,9 +62,25 @@ export class SiteComponent implements OnInit {
   }
 
   redirectToListComponent() {
-    console.log("Redirecting... prrrrt");
+    this.activeStatuses = [];
+    this.activeLocations = [];
+    
     console.log(this.listForm.value);
-    this.router.navigate(['list'], {relativeTo: this.route});
+    Object.entries(this.listForm.value).forEach(
+      ([key, val]) => {  
+        console.log(key, val)
+        if(val === true) {  // for all selected values
+          if(this.statuses.indexOf(key) != -1) {  // if it's a status
+            this.activeStatuses.push(key);
+          } else {
+            // if it's a location, add it to array of selected locations
+            let i = this.locations.findIndex(loc => loc.name == key );
+            this.activeLocations.push(this.locations[i]);
+          }
+        }
+      }
+    )
+    console.log(this.activeStatuses, this.activeLocations);
   }
 
   locationForm = this.formBuilder.group({

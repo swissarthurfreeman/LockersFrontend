@@ -30,7 +30,8 @@
                             <label class="custom-control-label" for="checkbox-occupied">{{stat}}</label>
                         </div>
                         <button type="submit" class="btn btn-primary">Consulter</button>
-                    </form> 
+                    </form>
+                    <app-list [activeLocations]="activeLocations" [activeStatuses]="activeStatuses"></app-list> 
                 </div>
             </div>
             <div class="tab-pane fade" id="edit" role="tabpanel">

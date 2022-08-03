@@ -13,10 +13,17 @@
             </thead>
             <tbody>
                 <!-- Used to display contracted lockers -->
-                
+                <tr *ngFor="let contr of contracts" class="table-success" name="0">
+                    <th scope="row">{{contr.status}}</th>
+                    <td>{{contr.locker.number}}</td>
+                    <td>{{contr.locker.location.name}}</td>
+                    <td>{{contr.firstname}}</td>
+                    <td>{{contr.lastname}}</td>
+                    <td>{{contr.expiration}}</td>
+                </tr>
 
                 <!-- used to generate free lockers rows -->
-                <tr *ngFor="let locker of lockers" class="table-success" name="0">
+                <tr *ngFor="let locker of freeLockers" class="table-success" name="0">
                     <th scope="row">Libre</th>
                     <td>{{locker.number}}</td>
                     <td>{{locker.location.name}}</td>
