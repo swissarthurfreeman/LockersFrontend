@@ -15,18 +15,18 @@
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active show" id="home" role="home">
                 <div class="jumbotron bg-dark text-white">
-                    <form [formGroup]="listForm" (ngSubmit)="redirectToListComponent()">
+                    <form [formGroup]="listForm" (ngSubmit)="displayList()">
                         <p>Aaaah, {{siteName}}...</p>
 
                         <p>Cochez les localisations souhaitées :</p>
                         <div *ngFor="let loc of locations" class="custom-control custom-checkbox">
-                            <input formControlName="{{loc.name}}" type="checkbox" class="custom-control-input">
+                            <input formControlName="{{loc.name}}" type="checkbox" class="custom-control-input" [attr.value]="isActiveLoc(loc)">
                             <label class="custom-control-label" for="checkbox-occupied">{{loc.name}}</label>
                         </div>
                 
                         <p>Cochez les types de casiers souhaités :</p>
                         <div *ngFor="let stat of statuses" class="custom-control custom-checkbox">
-                            <input formControlName="{{stat}}" type="checkbox" class="custom-control-input">
+                            <input formControlName="{{stat}}" type="checkbox" class="custom-control-input" [attr.value]="isActiveStat(stat)">
                             <label class="custom-control-label" for="checkbox-occupied">{{stat}}</label> <!-- TODO : french translation here -->
                         </div>
                         <button type="submit" class="btn btn-primary">Consulter</button>
