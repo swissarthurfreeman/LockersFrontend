@@ -1,14 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AppComponent } from '../../app.component';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Locker } from '../../model/locker.model';
 import { Location } from '../../model/location.model';
-import { LockerService } from '../../service/locker.service';
 import { LocationService } from 'src/app/service/location.service';
 import { FormBuilder } from '@angular/forms';
 import { Contract } from 'src/app/model/contract.model';
 import { ContractService } from 'src/app/service/contract.service';
-
 
 @Component({
   selector: 'app-locker',
@@ -46,7 +43,6 @@ export class LockerComponent implements OnInit {
 
   createContractAtLocker(): void {
     let contr = new Contract();
-    console.log(this.contractForm.value);
     contr.email = this.contractForm.value.email!;
     contr.phone_number = this.contractForm.value.phone_number!;
     contr.lastname = this.contractForm.value.lastname!;
@@ -57,16 +53,14 @@ export class LockerComponent implements OnInit {
     this.contractService.postContract(contr)
     .subscribe((contr) => {
       console.log("Posted Contract");
-      console.log(contr);
-      console.log(this.router.url);
       this.reloadCurrentRoute();
     }, (err) => { throw err; });
   }
-
+  
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
     });
-}
+  }
 }

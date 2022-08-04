@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { SelectionService } from '../service/selection.service';
 import { Locker } from '../model/locker.model';
 import { LockerService } from '../service/locker.service';
 import { Location } from '../model/location.model';

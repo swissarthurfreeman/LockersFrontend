@@ -1,3 +1,12 @@
+<br>    
+<div class="row">  
+<div class="col">
+    <div class="text-left">
+        <h4>Détails de Casier</h4>
+    </div>
+</div>
+</div>
+<hr>
  <div class="row">
     <div class="col">
         <h5>Numéro</h5>
@@ -95,4 +104,15 @@
             </div>
         </div>
     </div>
+    <hr>
+</div>
+<button type="submit" class="btn btn-success btn-lg" (click)="deleteContract(contract.lockerId)">Libérer</button>
+<div id="contractDeletionConfirmation"></div>
+<br>
+<div class="form-group" id="transferLockerForm">
+    <label class="col-form-label" for="transferToEmail">Transférer ce casier à une autre personne</label>
+    <input type="email" required="required" class="form-control input-sm" 
+    placeholder="john.doe@etu.unige.ch | john.doe@unige.ch" id="transferToEmail">
+    <button type="submit" class="btn btn-primary" onclick="transferLocker()">Transférer</button>
+    <div id="contractTransferConfirmation"></div>
 </div>

@@ -1,136 +1,126 @@
 <br>    
-<div class="container">
-    <div class="jumbotron bg-dark text-white">
-        <div class="row">  
-            <div class="col">
-                <div class="text-left">
-                    <p class="lead" >Contrat de location de casier.</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="text-right">
-                    <button type="button" class="btn btn-secondary" onclick="window.location=document.referrer;">Page Précédente</button>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <ul class="list-group">    
-            <div class="row">
-                <div class="col">
-                    <h5>Numéro</h5>
-                </div>
-                <div class="col">
-                    <p>{{locker.number}}</p>
-                </div>
-            </div>              
-            <div class="row">
-                <div class="col">
-                    <h5>Position Verticale</h5>
-                </div>
-                <div class="col">
-                    <p>{{locker.verticalPosition}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h5>Serrure (e.g. requiert clef de loge)</h5>
-                </div>
-                <div class="col">
-                    <p>{{locker.lock}}</p>
-                </div>
-            </div>         
-            <div class="row">
-                <div class="col">
-                    <h5>dimensions (largeur/hauteur/profondeur) [cm]</h5>
-                </div>
-                <div class="col">
-                    <p>{{locker.dimensions}}</p>  
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h5>Site</h5>
-                </div>
-                <div class="col">
-                    <p>{{locker.location.site}}</p>
-                </div>
-            </div>         
-            <div class="row">
-                <div class="col">
-                    <h5>Localisation</h5>
-                </div>
-                <div class="col">
-                    <p>{{locker.location.name}}</p>
-                </div>
-            </div>         
-            <div class="row">
-                <div class="col">
-                    <h5>Status</h5>
-                </div>
-                <div class="col">
-                    <p>Libre</p>  
-                </div>
-            </div>
-        </ul>    
-        <hr>
-            <form [formGroup]="contractForm" (ngSubmit)="createContractAtLocker()">
-                <p class="lead">Établir un nouveau contrat à ce casier :</p>
-                <div class="form-group">
-                    <label class="col-form-label" for="inputDefault">Nom</label>
-                    <input type="text" class="form-control input-sm" placeholder="Doe" formControlName="lastname">
-                    
-                    <label for="firstname">Prénom</label>
-                    <input type="text" class="form-control input-sm" placeholder="John" formControlName="firstname">
-                    
-                    <label for="number">Numéro</label>
-                    <input type="tel" class="form-control input-sm" placeholder="+41 12 345 67 89 (optionel)" formControlName="phone_number">
-                    
-                    <label for="email">Courriel</label>
-                    <input type="text" class="form-control input-sm" placeholder="nom.prenom@etu.unige.ch | @unige.ch (obligatoire)" formControlName="email">
-                    <br>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <div id="confirmContractAddition"></div>
-            </form>
-            
-            <h2>Zone de Danger</h2>
-            <hr>
-            <br>
-            <div class="row">
-                <div class="col">
-                    <fieldset>
-                        <label class="col-form-label" for="inputDefault">Déplacer ce casier :</label>
-                        <div class="form-group">
-                            <select class="form-control" id="newMoveLocation">
-                                    <!-- Add all locations across all university here (lockers can be transfered between sites) -->
-                                    <option>Bastions: entre_sol</option>
-                                    <option>Sciences: SCII</option>
-                            </select>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                        <div id="lockerMoveConfirmation"></div>
-                    </fieldset>
-                </div>
-                <div class="col">
-                    <fieldset>
-                        <label class="col-form-label">Marquer ce casier comme non disponible :</label>
-                        <div class="form-group">
-                            <textarea class="form-control" id="reasonForUnavailability" rows="3" placeholder="Raison..."></textarea>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                        <div id="markUnavailableConfirmation"></div>
-                    </fieldset>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col text-left">
-                    <label class="col-form-label" for="inputDefault">Supprimer ce casier (cette action est irréversible):</label>
-                </div>
-                <div class="col text-right">
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
-                </div>
-                <div id="lockerDeletionError"></div>
-            </div>
+<div class="row">  
+<div class="col">
+    <div class="text-left">
+        <h4>Détails de Casier</h4>
     </div>
+</div>
+</div>
+<hr>
+<ul class="list-group">    
+<div class="row">
+    <div class="col">
+        <h5>Numéro</h5>
+    </div>
+    <div class="col">
+        <p>{{locker.number}}</p>
+    </div>
+</div>              
+<div class="row">
+    <div class="col">
+        <h5>Position Verticale</h5>
+    </div>
+    <div class="col">
+        <p>{{locker.verticalPosition}}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h5>Serrure (e.g. requiert clef de loge)</h5>
+    </div>
+    <div class="col">
+        <p>{{locker.lock}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>dimensions (largeur/hauteur/profondeur) [cm]</h5>
+    </div>
+    <div class="col">
+        <p>{{locker.dimensions}}</p>  
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h5>Site</h5>
+    </div>
+    <div class="col">
+        <p>{{locker.location.site}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Localisation</h5>
+    </div>
+    <div class="col">
+        <p>{{locker.location.name}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Status</h5>
+    </div>
+    <div class="col">
+        <p>Libre</p>  
+    </div>
+</div>
+</ul>    
+<hr>
+<form [formGroup]="contractForm" (ngSubmit)="createContractAtLocker()">
+    <p class="lead">Établir un nouveau contrat à ce casier :</p>
+    <div class="form-group">
+        <label class="col-form-label" for="inputDefault">Nom</label>
+        <input type="text" class="form-control input-sm" placeholder="Doe" formControlName="lastname">
+        
+        <label for="firstname">Prénom</label>
+        <input type="text" class="form-control input-sm" placeholder="John" formControlName="firstname">
+        
+        <label for="number">Numéro</label>
+        <input type="tel" class="form-control input-sm" placeholder="+41 12 345 67 89 (optionel)" formControlName="phone_number">
+        
+        <label for="email">Courriel</label>
+        <input type="text" class="form-control input-sm" placeholder="nom.prenom@etu.unige.ch | @unige.ch (obligatoire)" formControlName="email">
+        <br>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<h2>Zone de Danger</h2>
+<hr>
+<br>
+<div class="row">
+    <div class="col">
+        <fieldset>
+            <label class="col-form-label" for="inputDefault">Déplacer ce casier :</label>
+            <div class="form-group">
+                <select class="form-control" id="newMoveLocation">
+                        <!-- Add all locations across all university here (lockers can be transfered between sites) -->
+                        <option>Bastions: entre_sol</option>
+                        <option>Sciences: SCII</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div id="lockerMoveConfirmation"></div>
+        </fieldset>
+    </div>
+    <div class="col">
+        <fieldset>
+            <label class="col-form-label">Marquer ce casier comme non disponible :</label>
+            <div class="form-group">
+                <textarea class="form-control" id="reasonForUnavailability" rows="3" placeholder="Raison..."></textarea>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div id="markUnavailableConfirmation"></div>
+        </fieldset>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col text-left">
+        <label class="col-form-label" for="inputDefault">Supprimer ce casier (cette action est irréversible):</label>
+    </div>
+    <div class="col text-right">
+        <button type="submit" class="btn btn-danger">Supprimer</button>
+    </div>
+    <div id="lockerDeletionError"></div>
 </div>

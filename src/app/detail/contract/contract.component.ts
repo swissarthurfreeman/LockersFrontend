@@ -22,4 +22,21 @@ export class ContractComponent implements OnInit {
     console.log("Contract View Rendered");
     console.log(this.contract);
   }
+
+  deleteContract(lockerId: string) {
+    console.log("Deleted contract " + lockerId);
+    this.contractService.delete(lockerId)
+    .subscribe((deleted) => {
+      console.log("Successfully deleted contract");
+      this.reloadCurrentRoute();
+    },
+    (err) => { throw err; });
+  }
+
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
 }

@@ -1,14 +1,6 @@
 <br>    
 <div class="container">
     <div class="jumbotron bg-dark text-white">
-        <div class="row">  
-            <div class="col">
-                <div class="text-left">
-                    <p class="lead" >Contrat de location de casier.</p>
-                </div>
-            </div>
-        </div>
-        <hr>
         <ng-container *ngIf="!!contract || !!locker">   <!-- Contract or locker must be loaded -->
             <ul class="list-group">
                 <ng-container *ngIf="this.isContract">
@@ -17,20 +9,7 @@
                 <ng-container *ngIf="!this.isContract">
                     <app-locker [locker]="locker"></app-locker>
                 </ng-container>        
-            </ul>    
+            </ul>
         </ng-container>
-        <hr>
-        
-            <button onclick="liberateLocker(this.value)" type="submit" class="btn btn-success btn-lg" value='liberate' name='action'>Libérer</button>
-            <div id="contractDeletionConfirmation"></div>
-            <br>
-            
-            <div class="form-group" id="transferLockerForm">
-                <label class="col-form-label" for="transferToEmail">Transférer ce casier à une autre personne</label>
-                <input type="email" required="required" class="form-control input-sm" 
-                placeholder="john.doe@etu.unige.ch | john.doe@unige.ch" id="transferToEmail">
-                <button type="submit" class="btn btn-primary" onclick="transferLocker()">Transférer</button>
-                <div id="contractTransferConfirmation"></div>
-            </div>
     </div>
 </div>

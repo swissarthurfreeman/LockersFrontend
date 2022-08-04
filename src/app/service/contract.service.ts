@@ -8,8 +8,8 @@ import { Locker } from "../model/locker.model";
 
 @Injectable({providedIn: 'root'})   // wtf does this line do ?
 export class ContractService {
-    constructor(private http: HttpClient) { }
-    // /contracts?site=Sciences&name=EPA
+    constructor(private http: HttpClient) {}
+    
     getContractsOf(location: Location): Observable<Contract[]> {
         return this.http.get<Contract[]>(`${environment.apiUrl}/contracts?site=${location.site}&name=${location.name}`);
     }
@@ -26,5 +26,9 @@ export class ContractService {
 
     getContractBy(lockerId: string): Observable<Contract> {
         return this.http.get<Contract>(`${environment.apiUrl}/contracts/${lockerId}`);
+    }
+
+    delete(lockerId: string): Observable<null> {
+        return this.http.delete<null>(`${environment.apiUrl}/contracts/${lockerId}`);
     }
 }
