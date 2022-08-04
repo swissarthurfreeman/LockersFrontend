@@ -7,10 +7,11 @@ import { Location } from "../model/location.model";
 import { LockerService } from '../service/locker.service';
 import { Locker } from '../model/locker.model';
 import { StateService } from '../service/State.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-site',
-  templateUrl: './site.component.html'
+  templateUrl: './site.component.html',
 })
 export class SiteComponent implements OnInit {
 
@@ -20,7 +21,7 @@ export class SiteComponent implements OnInit {
     private locationService: LocationService, 
     private formBuilder: FormBuilder,
     private lockerService: LockerService,
-    public stateService: StateService
+    public stateService: StateService,
   ) {}
 
   siteName!: string;
@@ -33,6 +34,7 @@ export class SiteComponent implements OnInit {
   listForm = this.formBuilder.group({});
 
   ngOnInit(): void {
+    this.route.url.subscribe((url) => this.stateService.previousUrl = url);
     this.activeStatuses = this.stateService.getStatuses();
     this.activeLocations = this.stateService.getLocations();
 
@@ -69,6 +71,8 @@ export class SiteComponent implements OnInit {
     )
   }
 
+  consultClick: Subject<void> = new Subject<void>;
+
   displayList() {
     this.activeStatuses = [];
     this.activeLocations = [];
@@ -89,6 +93,7 @@ export class SiteComponent implements OnInit {
     console.log(this.activeLocations, this.activeStatuses);
     this.stateService.locations = this.activeLocations;
     this.stateService.statuses = this.activeStatuses;
+    this.consultClick.next();
   }
 
   locationForm = this.formBuilder.group({

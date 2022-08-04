@@ -27,4 +27,14 @@ export class LockerService {
     getLockerBy(lockerId: string): Observable<Locker> {
         return this.http.get<Locker>(`${environment.apiUrl}/lockers/${lockerId}`);
     }
+
+    putLocker(locker: Locker): Observable<Locker> {
+        console.log(`PUT ${environment.apiUrl}/lockers/${locker.lockerId}`);
+        return this.http.put<Locker>(`${environment.apiUrl}/lockers/${locker.lockerId}`, locker);
+    }
+
+    deleteLockerBy(lockerId: string): Observable<null> {
+        console.log(`DELETE ${environment.apiUrl}/lockers/${lockerId}`);
+        return this.http.delete<null>(`${environment.apiUrl}/lockers/${lockerId}`);
+    }
 }

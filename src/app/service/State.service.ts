@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { UrlSegment } from "@angular/router";
 import { Location } from "../model/location.model";
 
 @Injectable({
@@ -15,4 +16,6 @@ export class StateService {
     getStatuses(): string[] {
         return this.statuses;
     }
+
+    previousUrl!: UrlSegment[];
 }

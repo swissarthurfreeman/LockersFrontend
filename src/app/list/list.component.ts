@@ -6,6 +6,8 @@ import { LockerService } from '../service/locker.service';
 import { Location } from '../model/location.model';
 import { Contract } from '../model/contract.model';
 import { ContractService } from '../service/contract.service';
+import { Observable, Subscription } from 'rxjs';
+import { StateService } from '../service/State.service';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +18,8 @@ export class ListComponent implements OnInit {
     private router: Router, 
     private route: ActivatedRoute,
     private lockerService: LockerService,
-    private contractService: ContractService
+    private contractService: ContractService,
+    private stateService: StateService
   ) {}
 
   @Input()
@@ -25,7 +28,9 @@ export class ListComponent implements OnInit {
   @Input()
   activeStatuses: string[] = [];
 
-  freeLockers: Locker[] = [];
+  freeLockers!: Locker[];
+  brokenLockers!: Locker[];
+
   contracts: Contract[] = [];
   
   getLockers(): void {
@@ -33,14 +38,19 @@ export class ListComponent implements OnInit {
         this.lockerService.getLockersOf(loc)
         .subscribe((lockers) => {
             lockers.forEach((locker) => {
-                this.freeLockers.push(locker);
+                if(this.activeStatuses.indexOf('OutOfService') != -1)
+                  if(locker.OutOfService)
+                    this.brokenLockers.push(locker);
+
+                if(this.activeStatuses.indexOf('Free') != -1)
+                  if(!locker.OutOfService)
+                    this.freeLockers.push(locker);
             });
         })
     });
   }
 
   getContracts(): void {
-    console.log(this.activeStatuses);
     this.activeLocations.forEach((loc) => {
       this.contractService.getContractsOf(loc)
       .subscribe((contracts: Contract[]) => {
@@ -53,17 +63,28 @@ export class ListComponent implements OnInit {
     })
   }
 
-  ngOnChanges(changes: any) {
+  private eventSubscribtion!: Subscription;
+  @Input() parentConsult!: Observable<void>;
+
+  loadList() {
+    this.activeLocations = this.stateService.getLocations();
+    this.activeStatuses = this.stateService.getStatuses();
     this.contracts = [];
     this.freeLockers = [];  // temporary ugly solution, re-query every time... (this is what was done previously)
+    this.brokenLockers = [];
     this.getLockers();
     this.getContracts();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.eventSubscribtion = this.parentConsult.subscribe(() => this.loadList());
+  }
+
+  ngOnDestroy() {
+    this.eventSubscribtion.unsubscribe();
+  }
 
   selectContractOrLocker(lockerId: string) {
-    console.log("Selected ContractOrLocker" + lockerId);
     this.router.navigate([lockerId], {relativeTo: this.route});
   }
 }

@@ -7,6 +7,7 @@ export class Locker {
     verticalPosition!: string;
     lock!: boolean;
     dimensions!: string;
+    locationId!: number;
     location!: Location;
     OutOfService!: boolean;
     OutOfServiceReason!: string;

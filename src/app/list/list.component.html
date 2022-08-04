@@ -12,6 +12,7 @@
             </tr>
             </thead>
             <tbody>
+                <ng-container *ngIf="!!contracts && !!freeLockers && !!brokenLockers">
                 <ng-container *ngFor="let contr of contracts">
                     <!-- Used to display contracted lockers -->
                     <tr *ngIf="contr.status === 'Breached'" class="table-danger" (click)="selectContractOrLocker(contr.lockerId)">
@@ -45,6 +46,15 @@
                 </ng-container>
 
                 <!-- used to generate free lockers rows -->
+                <tr *ngFor="let locker of brokenLockers" class="table-light" (click)="selectContractOrLocker(locker.lockerId)">
+                    <th scope="row">Hors-Service</th>
+                    <td>{{locker.number}}</td>
+                    <td>{{locker.location.name}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                
                 <tr *ngFor="let locker of freeLockers" class="table-success" (click)="selectContractOrLocker(locker.lockerId)">
                     <th scope="row">Libre</th>
                     <td>{{locker.number}}</td>
@@ -53,6 +63,7 @@
                     <td></td>
                     <td></td>
                 </tr>
+            </ng-container>
             </tbody>
         </table>
     </div>

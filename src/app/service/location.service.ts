@@ -12,6 +12,10 @@ export class LocationService {
         return this.http.get<Location[]>(`${environment.apiUrl}/locations?site=${site}`);
     }
 
+    getAllLocations(): Observable<Location[]> {
+        return this.http.get<Location[]>(`${environment.apiUrl}/locations`);
+    }
+
     postLocation(site: string | null | undefined, name: string | null | undefined): Observable<Location> {
         return this.http.post<Location>(`${environment.apiUrl}/locations`, {
             "site": site, 

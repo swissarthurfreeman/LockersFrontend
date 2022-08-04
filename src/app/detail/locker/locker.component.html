@@ -7,6 +7,7 @@
 </div>
 </div>
 <hr>
+<ng-container *ngIf="locker">
 <ul class="list-group">    
 <div class="row">
     <div class="col">
@@ -64,54 +65,73 @@
         <p>Libre</p>  
     </div>
 </div>
-</ul>    
+</ul>
+</ng-container>    
 <hr>
-<form [formGroup]="contractForm" (ngSubmit)="createContractAtLocker()">
-    <p class="lead">Établir un nouveau contrat à ce casier :</p>
-    <div class="form-group">
-        <label class="col-form-label" for="inputDefault">Nom</label>
-        <input type="text" class="form-control input-sm" placeholder="Doe" formControlName="lastname">
-        
-        <label for="firstname">Prénom</label>
-        <input type="text" class="form-control input-sm" placeholder="John" formControlName="firstname">
-        
-        <label for="number">Numéro</label>
-        <input type="tel" class="form-control input-sm" placeholder="+41 12 345 67 89 (optionel)" formControlName="phone_number">
-        
-        <label for="email">Courriel</label>
-        <input type="text" class="form-control input-sm" placeholder="nom.prenom@etu.unige.ch | @unige.ch (obligatoire)" formControlName="email">
-        <br>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
+<ng-container *ngIf="locker">
+    <ng-container *ngIf="!locker.OutOfService">
+    <form [formGroup]="contractForm" (ngSubmit)="createContractAtLocker()">
+        <p class="lead">Établir un nouveau contrat à ce casier :</p>
+        <div class="form-group">
+            <label class="col-form-label" for="inputDefault">Nom</label>
+            <input type="text" class="form-control input-sm" placeholder="Doe" formControlName="lastname">
+            
+            <label for="firstname">Prénom</label>
+            <input type="text" class="form-control input-sm" placeholder="John" formControlName="firstname">
+            
+            <label for="number">Numéro</label>
+            <input type="tel" class="form-control input-sm" placeholder="+41 12 345 67 89 (optionel)" formControlName="phone_number">
+            
+            <label for="email">Courriel</label>
+            <input type="text" class="form-control input-sm" placeholder="nom.prenom@etu.unige.ch | @unige.ch (obligatoire)" formControlName="email">
+            <br>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </ng-container>
+</ng-container>
 <h2>Zone de Danger</h2>
 <hr>
 <br>
 <div class="row">
     <div class="col">
-        <fieldset>
-            <label class="col-form-label" for="inputDefault">Déplacer ce casier :</label>
+        <form [formGroup]="moveForm" (ngSubmit)="moveLocker()">
+            <label class="col-form-label">Déplacer ce casier :</label>
             <div class="form-group">
-                <select class="form-control" id="newMoveLocation">
+                <select class="form-control" formControlName="locationId">
                         <!-- Add all locations across all university here (lockers can be transfered between sites) -->
-                        <option>Bastions: entre_sol</option>
-                        <option>Sciences: SCII</option>
+                        <ng-container *ngIf="locations">
+                            <ng-container *ngFor="let location of locations">
+                                <option value={{location.locationId}}>{{location.site}}, {{location.name}}</option>
+                            </ng-container>
+                        </ng-container>
                 </select>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
-            <div id="lockerMoveConfirmation"></div>
-        </fieldset>
+        </form>
     </div>
     <div class="col">
-        <fieldset>
-            <label class="col-form-label">Marquer ce casier comme non disponible :</label>
-            <div class="form-group">
-                <textarea class="form-control" id="reasonForUnavailability" rows="3" placeholder="Raison..."></textarea>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-            <div id="markUnavailableConfirmation"></div>
-        </fieldset>
+        <ng-container *ngIf="locker">
+            <ng-container *ngIf="!locker.OutOfService">
+                <form [formGroup]="invalidForm" (ngSubmit)="markInvalid()">
+                    <label class="col-form-label">Marquer ce casier comme non disponible :</label>
+                    <div class="form-group">
+                        <textarea formControlName="OutOfServiceReason" class="form-control" rows="3" placeholder="Raison..."></textarea>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div id="markUnavailableConfirmation"></div>
+                </form>
+            </ng-container>
+            <ng-container *ngIf="locker.OutOfService">
+                <div class="card text-white bg-danger mb-3" style="max-width: 30rem;">
+                    <div class="card-body">
+                        <h4 class="card-title">Raison d'Indisponibilité :</h4>
+                        <p class="card-text">{{locker.OutOfServiceReason}}</p>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" (click)="markValid(locker.lockerId)">Marquer Disponible</button>
+            </ng-container>
+        </ng-container>
     </div>
 </div>
 <hr>
@@ -120,7 +140,7 @@
         <label class="col-form-label" for="inputDefault">Supprimer ce casier (cette action est irréversible):</label>
     </div>
     <div class="col text-right">
-        <button type="submit" class="btn btn-danger">Supprimer</button>
+        <button type="submit" class="btn btn-danger" (click)="delete(locker.lockerId)">Supprimer</button>
     </div>
     <div id="lockerDeletionError"></div>
 </div>
