@@ -10,6 +10,9 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './list/list.component';
+import { LockerComponent } from './detail/locker/locker.component';
+import { ContractComponent } from './detail/contract/contract.component';
+import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { ListComponent } from './list/list.component';
     SiteComponent,
     NavbarComponent,
     HomeComponent,
-    ListComponent
+    ListComponent,
+    LockerComponent,
+    ContractComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,

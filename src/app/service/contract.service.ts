@@ -11,18 +11,20 @@ export class ContractService {
     constructor(private http: HttpClient) { }
     // /contracts?site=Sciences&name=EPA
     getContractsOf(location: Location): Observable<Contract[]> {
-        console.log(`GET ${environment.apiUrl}/contracts?site=${location.site}&name=${location.name}`);
         return this.http.get<Contract[]>(`${environment.apiUrl}/contracts?site=${location.site}&name=${location.name}`);
     }
 
-    postLocker(locker: Locker, at: Location): Observable<Locker> {
-        console.log("Posting Locker =", locker);
-        return this.http.post<Locker>(`${environment.apiUrl}/lockers`, {
-            "number": locker.number, 
-            "verticalPosition": locker.verticalPosition,
-            "lock": locker.lock,
-            "locationId": at.locationId,
-            "dimensions": locker.dimensions
+    postContract(contract: Contract): Observable<Locker> {
+        return this.http.post<Locker>(`${environment.apiUrl}/contracts`, {
+            "lockerId": contract.locker.lockerId, 
+            "firstname": contract.firstname,
+            "lastname": contract.lastname,
+            "email": contract.email,
+            "phone_number": contract.phone_number
         });
+    }
+
+    getContractBy(lockerId: string): Observable<Contract> {
+        return this.http.get<Contract>(`${environment.apiUrl}/contracts/${lockerId}`);
     }
 }

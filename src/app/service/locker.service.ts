@@ -23,4 +23,8 @@ export class LockerService {
             "dimensions": locker.dimensions
         });
     }
+
+    getLockerBy(lockerId: string): Observable<Locker> {
+        return this.http.get<Locker>(`${environment.apiUrl}/lockers/${lockerId}`);
+    }
 }

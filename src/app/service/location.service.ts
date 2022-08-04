@@ -13,9 +13,6 @@ export class LocationService {
     }
 
     postLocation(site: string | null | undefined, name: string | null | undefined): Observable<Location> {
-        console.log("Posting Location");
-        console.log(site);
-        console.log(name);
         return this.http.post<Location>(`${environment.apiUrl}/locations`, {
             "site": site, 
             "name": name

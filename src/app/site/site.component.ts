@@ -25,7 +25,7 @@ export class SiteComponent implements OnInit {
 
   siteName!: string;
   locations: Location[] = []; // all locations at site
-  statuses = ['Rupture de Contract', 'Occupied', 'Hors Service', 'Libre'];
+  statuses = ['Breached', 'Occupied', 'NonRenewed', 'OutOfService', 'Free'];
 
   activeStatuses: string[] = [];
   activeLocations: Location[] = [];
@@ -65,10 +65,8 @@ export class SiteComponent implements OnInit {
     this.activeStatuses = [];
     this.activeLocations = [];
     
-    console.log(this.listForm.value);
     Object.entries(this.listForm.value).forEach(
       ([key, val]) => {  
-        console.log(key, val)
         if(val === true) {  // for all selected values
           if(this.statuses.indexOf(key) != -1) {  // if it's a status
             this.activeStatuses.push(key);
@@ -80,7 +78,6 @@ export class SiteComponent implements OnInit {
         }
       }
     )
-    console.log(this.activeStatuses, this.activeLocations);
   }
 
   locationForm = this.formBuilder.group({

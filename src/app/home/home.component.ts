@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { SelectionService } from '../service/selection.service';
 
 @Component({
   selector: 'app-home',

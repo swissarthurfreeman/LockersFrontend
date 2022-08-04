@@ -20,14 +20,14 @@
 
                         <p>Cochez les localisations souhaitées :</p>
                         <div *ngFor="let loc of locations" class="custom-control custom-checkbox">
-                            <input formControlName="{{loc.name}}" type="checkbox" class="custom-control-input" id="checkbox-{{loc.name}}" checked="" name="{{loc.name}}">
+                            <input formControlName="{{loc.name}}" type="checkbox" class="custom-control-input">
                             <label class="custom-control-label" for="checkbox-occupied">{{loc.name}}</label>
                         </div>
                 
                         <p>Cochez les types de casiers souhaités :</p>
                         <div *ngFor="let stat of statuses" class="custom-control custom-checkbox">
-                            <input formControlName="{{stat}}" type="checkbox" class="custom-control-input" id="checkbox-{{stat}}" checked="" name="{{stat}}">
-                            <label class="custom-control-label" for="checkbox-occupied">{{stat}}</label>
+                            <input formControlName="{{stat}}" type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label" for="checkbox-occupied">{{stat}}</label> <!-- TODO : french translation here -->
                         </div>
                         <button type="submit" class="btn btn-primary">Consulter</button>
                     </form>

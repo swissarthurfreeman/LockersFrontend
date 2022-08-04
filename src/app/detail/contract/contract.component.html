@@ -1,0 +1,98 @@
+ <div class="row">
+    <div class="col">
+        <h5>Numéro</h5>
+    </div>
+    <div class="col"> 
+        <p>{{contract.locker.number}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>dimensions (largeur/hauteur/profondeur) [cm]</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.locker.dimensions}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Localisation</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.locker.location.name}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Site</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.locker.location.site}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Prenom</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.firstname}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Nom de famille</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.lastname}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Date d'échéance</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.expiration}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Serrure (e.g. requiert clef de loge)</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.locker.lock}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>État du contrat</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.status}}</p>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Courriel</h5>
+    </div>
+    <div class="col">
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" placeholder="{{contract.email}}">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" class="btn btn-warning btn-lg">Mettre à jour</button>
+            </div>
+        </div>
+    </div>
+</div>         
+<div class="row">
+    <div class="col">
+        <h5>Numéro de Natel</h5>
+    </div>
+    <div class="col">
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" placeholder="{{contract.phone_number}}">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" class="btn btn-warning btn-lg">Mettre à jour</button>
+            </div>
+        </div>
+    </div>
+</div>

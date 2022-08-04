@@ -15,6 +15,7 @@ import { ContractService } from '../service/contract.service';
 export class ListComponent implements OnInit {
   constructor(
     private router: Router, 
+    private route: ActivatedRoute,
     private lockerService: LockerService,
     private contractService: ContractService
   ) {}
@@ -40,11 +41,11 @@ export class ListComponent implements OnInit {
   }
 
   getContracts(): void {
+    console.log(this.activeStatuses);
     this.activeLocations.forEach((loc) => {
       this.contractService.getContractsOf(loc)
       .subscribe((contracts: Contract[]) => {
-        contracts.forEach((contr) => {
-          console.log(contr.status, this.activeStatuses);
+        contracts.forEach((contr: Contract) => {
           if(this.activeStatuses.indexOf(contr.status)  != -1) {
             this.contracts.push(contr);
           }
@@ -54,14 +55,16 @@ export class ListComponent implements OnInit {
   }
 
   ngOnChanges(changes: any) {
-    for(let key in changes) {
-      this.contracts = [];
-      this.freeLockers = [];  // temporary ugly solution, re-query every time... (this is what was done previously)
-      this.getLockers();
-      this.getContracts();
-      console.log(this.contracts);
-    }
+    this.contracts = [];
+    this.freeLockers = [];  // temporary ugly solution, re-query every time... (this is what was done previously)
+    this.getLockers();
+    this.getContracts();
   }
 
   ngOnInit(): void {}
+
+  selectContractOrLocker(lockerId: string) {
+    console.log("Selected ContractOrLocker" + lockerId);
+    this.router.navigate([lockerId], {relativeTo: this.route});
+  }
 }

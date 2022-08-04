@@ -12,18 +12,40 @@
             </tr>
             </thead>
             <tbody>
-                <!-- Used to display contracted lockers -->
-                <tr *ngFor="let contr of contracts" class="table-success" name="0">
-                    <th scope="row">{{contr.status}}</th>
-                    <td>{{contr.locker.number}}</td>
-                    <td>{{contr.locker.location.name}}</td>
-                    <td>{{contr.firstname}}</td>
-                    <td>{{contr.lastname}}</td>
-                    <td>{{contr.expiration}}</td>
-                </tr>
+                <ng-container *ngFor="let contr of contracts">
+                    <!-- Used to display contracted lockers -->
+                    <tr *ngIf="contr.status === 'Breached'" class="table-danger" (click)="selectContractOrLocker(contr.lockerId)">
+                        <th scope="row">{{contr.status}}</th>
+                        <td>{{contr.locker.number}}</td>
+                        <td>{{contr.locker.location.name}}</td>
+                        <td>{{contr.firstname}}</td>
+                        <td>{{contr.lastname}}</td>
+                        <td>{{contr.expiration}}</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngFor="let contr of contracts">
+                    <tr *ngIf="contr.status === 'NonRenewed'" class="table-warning" (click)="selectContractOrLocker(contr.lockerId)">
+                        <th scope="row">{{contr.status}}</th>
+                        <td>{{contr.locker.number}}</td>
+                        <td>{{contr.locker.location.name}}</td>
+                        <td>{{contr.firstname}}</td>
+                        <td>{{contr.lastname}}</td>
+                        <td>{{contr.expiration}}</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngFor="let contr of contracts">
+                    <tr *ngIf="contr.status === 'Occupied'" class="table-info" (click)="selectContractOrLocker(contr.lockerId)">
+                        <th scope="row">{{contr.status}}</th>
+                        <td>{{contr.locker.number}}</td>
+                        <td>{{contr.locker.location.name}}</td>
+                        <td>{{contr.firstname}}</td>
+                        <td>{{contr.lastname}}</td>
+                        <td>{{contr.expiration}}</td>
+                    </tr>
+                </ng-container>
 
                 <!-- used to generate free lockers rows -->
-                <tr *ngFor="let locker of freeLockers" class="table-success" name="0">
+                <tr *ngFor="let locker of freeLockers" class="table-success" (click)="selectContractOrLocker(locker.lockerId)">
                     <th scope="row">Libre</th>
                     <td>{{locker.number}}</td>
                     <td>{{locker.location.name}}</td>
