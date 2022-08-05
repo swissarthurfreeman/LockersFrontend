@@ -14,6 +14,7 @@
             <tbody>
                 <ng-container *ngIf="!!contracts && !!freeLockers && !!brokenLockers">
                 <ng-container *ngFor="let contr of contracts">
+                    <ng-container *ngIf="!!contr.locker">
                     <!-- Used to display contracted lockers -->
                     <tr *ngIf="contr.status === 'Breached'" class="table-danger" (click)="selectContractOrLocker(contr.lockerId)">
                         <th scope="row">{{contr.status}}</th>
@@ -23,8 +24,10 @@
                         <td>{{contr.lastname}}</td>
                         <td>{{contr.expiration}}</td>
                     </tr>
+                    </ng-container>
                 </ng-container>
                 <ng-container *ngFor="let contr of contracts">
+                    <ng-container *ngIf="!!contr.locker">
                     <tr *ngIf="contr.status === 'NonRenewed'" class="table-warning" (click)="selectContractOrLocker(contr.lockerId)">
                         <th scope="row">{{contr.status}}</th>
                         <td>{{contr.locker.number}}</td>
@@ -33,8 +36,10 @@
                         <td>{{contr.lastname}}</td>
                         <td>{{contr.expiration}}</td>
                     </tr>
+                    </ng-container>
                 </ng-container>
                 <ng-container *ngFor="let contr of contracts">
+                    <ng-container *ngIf="!!contr.locker">
                     <tr *ngIf="contr.status === 'Occupied'" class="table-info" (click)="selectContractOrLocker(contr.lockerId)">
                         <th scope="row">{{contr.status}}</th>
                         <td>{{contr.locker.number}}</td>
@@ -43,6 +48,7 @@
                         <td>{{contr.lastname}}</td>
                         <td>{{contr.expiration}}</td>
                     </tr>
+                    </ng-container>
                 </ng-container>
 
                 <!-- used to generate free lockers rows -->

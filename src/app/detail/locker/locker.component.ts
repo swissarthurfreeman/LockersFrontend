@@ -71,13 +71,11 @@ export class LockerComponent implements OnInit {
 
     this.contractService.postContract(contr)
     .subscribe((contr) => {
-      console.log("Posted Contract");
       this.reloadCurrentRoute();
     }, (err) => { throw err; });
   }
 
   moveLocker() {
-    console.log("Submitted form =", this.moveForm.value);
     this.locker.locationId = parseInt(this.moveForm.value.locationId!);
     this.lockerService.putLocker(this.locker)
     .subscribe((updated) => { 
@@ -90,8 +88,6 @@ export class LockerComponent implements OnInit {
     this.locker.OutOfServiceReason = this.invalidForm.value.OutOfServiceReason!;
     this.lockerService.putLocker(this.locker)
     .subscribe((updated) => { 
-      console.log("Marked Locker as out of service"); 
-      console.log("Updated locker", updated);
       this.reloadCurrentRoute(); 
     }, (err) => { throw err; });
   }
@@ -101,14 +97,11 @@ export class LockerComponent implements OnInit {
     this.locker.OutOfServiceReason = null!;
     this.lockerService.putLocker(this.locker)
     .subscribe((updated) => { 
-      console.log("Marked Locker as in service"); 
-      console.log("Updated locker", updated);
       //this.reloadCurrentRoute();
     }, (err) => { throw err; });
   }
 
   delete(lockerId: string) {
-    console.log("Deleting locker", lockerId);
     this.lockerService.deleteLockerBy(lockerId).subscribe((lol) => { console.log("Deleted locker ?")}, (err) => {throw err; });
     this.router.navigate(this.stateService.previousUrl);
   }

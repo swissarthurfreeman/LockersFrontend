@@ -17,20 +17,20 @@
                 <div class="jumbotron bg-dark text-white">
                     <form [formGroup]="listForm" (ngSubmit)="displayList()" class="form-group">
                         <p>Cochez les localisations souhaitées :</p>
-                        <div *ngFor="let loc of locations" class="custom-control custom-checkbox" class="form-check">
+                        <div *ngFor="let loc of stateService.locations" class="custom-control custom-checkbox" class="form-check">
                             <label class="form-check-label">
                             <input formControlName="{{loc.name}}" type="checkbox" class="form-check-input" [attr.value]="isActiveLoc(loc)">
                             {{loc.name}}</label>
                         </div>
                         <p>Cochez les types de casiers souhaités :</p>
-                        <div *ngFor="let stat of statuses" class="custom-control custom-checkbox" class="form-check">
+                        <div *ngFor="let stat of stateService.statuses" class="custom-control custom-checkbox" class="form-check">
                             <label class="form-check-label">
                             <input formControlName="{{stat}}" type="checkbox" class="form-check-input" [attr.value]="isActiveStat(stat)">
                             {{stat}}</label> <!-- TODO : french translation here -->
                         </div>
                         <button type="submit" class="btn btn-primary">Consulter</button>
                     </form>
-                    <app-list [parentConsult]="consultClick" [activeLocations]="activeLocations" [activeStatuses]="activeStatuses"></app-list> 
+                    <app-list [parentConsult]="consultClick"></app-list> 
                 </div>
             </div>
             <div class="tab-pane fade" id="edit" role="tabpanel">
@@ -45,18 +45,18 @@
                                 <div id="addLocationConfirmation"></div>
                             </div>
                         </form>
-                        <fieldset>
+                        <form [formGroup]="locationRenameForm" (ngSubmit)="renameLocation()">
                             <!-- TODO : query api to update location -->
                             <div class="form-group">
                                 <label for="exampleSelect1">Renommer une localisation</label>
-                                <select class="form-control" id="oldLocationName">
-                                    <option *ngFor="let loc of locations">{{loc.name}}</option>
+                                <select class="form-control" formControlName="oldName">
+                                    <option *ngFor="let loc of stateService.locations" value={{loc.name}}>{{loc.name}}</option>
                                 </select>
-                                <input type="text" maxlength="20" class="form-control input-sm" placeholder="Nouveau Nom">      
+                                <input formControlName="newName" type="text" maxlength="20" class="form-control input-sm" placeholder="Nouveau Nom">      
                             </div>
-                            <button type="submit" class="btn btn-primary" onclick="renameLocation()">Renommer</button>
+                            <button type="submit" class="btn btn-primary">Renommer</button>
                             <div id="locationRenameConfirmation"></div>
-                        </fieldset>
+                        </form>
                         <hr>
                         <form [formGroup]="lockerForm" (ngSubmit)="submitLocker()">
                             <p class="lead">Modifier les Casiers :</p>
@@ -66,7 +66,7 @@
                                 
                                 <label>Localisation</label>
                                 <select formControlName="locationName" class="form-control">
-                                    <option *ngFor="let loc of locations">{{loc.name}}</option>
+                                    <option *ngFor="let loc of stateService.locations">{{loc.name}}</option>
                                 </select>
                                 
                                 <label>Position Verticale</label>

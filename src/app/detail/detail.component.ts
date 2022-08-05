@@ -28,7 +28,6 @@ export class DetailComponent implements OnInit {
     this.route.paramMap.subscribe(params => { 
         // at this stage we don't know if it's a contract or a locker and if locker if it's out of service...
         this.lockerId = params.get('lockerId')!;   
-        console.log(this.lockerId);
 
         this.contractService.getContractBy(this.lockerId)
         .subscribe((contr: Contract) => {
@@ -40,7 +39,6 @@ export class DetailComponent implements OnInit {
             this.lockerService.getLockerBy(this.lockerId)
             .subscribe((locker) => {
                 this.locker = locker;
-                console.log(this.locker);
                 this.isContract = false;
             }, (err) => {
                 console.log(err.message);

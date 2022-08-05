@@ -14,7 +14,6 @@ export class LockerService {
     }
 
     postLocker(locker: Locker, at: Location): Observable<Locker> {
-        console.log("Posting Locker =", locker);
         return this.http.post<Locker>(`${environment.apiUrl}/lockers`, {
             "number": locker.number, 
             "verticalPosition": locker.verticalPosition,
@@ -29,12 +28,10 @@ export class LockerService {
     }
 
     putLocker(locker: Locker): Observable<Locker> {
-        console.log(`PUT ${environment.apiUrl}/lockers/${locker.lockerId}`);
         return this.http.put<Locker>(`${environment.apiUrl}/lockers/${locker.lockerId}`, locker);
     }
 
     deleteLockerBy(lockerId: string): Observable<null> {
-        console.log(`DELETE ${environment.apiUrl}/lockers/${lockerId}`);
         return this.http.delete<null>(`${environment.apiUrl}/lockers/${lockerId}`);
     }
 }

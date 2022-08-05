@@ -19,14 +19,8 @@ export class ListComponent implements OnInit {
     private route: ActivatedRoute,
     private lockerService: LockerService,
     private contractService: ContractService,
-    private stateService: StateService
+    public stateService: StateService
   ) {}
-
-  @Input()
-  activeLocations: Location[] = [];
-
-  @Input()
-  activeStatuses: string[] = [];
 
   freeLockers!: Locker[];
   brokenLockers!: Locker[];
@@ -34,15 +28,17 @@ export class ListComponent implements OnInit {
   contracts: Contract[] = [];
   
   getLockers(): void {
-    this.activeLocations.forEach((loc) => {
+    console.log(this.stateService.activeLocations);
+    this.stateService.activeLocations.forEach((loc) => {
+        console.log(loc);
         this.lockerService.getLockersOf(loc)
         .subscribe((lockers) => {
             lockers.forEach((locker) => {
-                if(this.activeStatuses.indexOf('OutOfService') != -1)
+                if(this.stateService.activeStatuses.indexOf('OutOfService') != -1)
                   if(locker.OutOfService)
                     this.brokenLockers.push(locker);
 
-                if(this.activeStatuses.indexOf('Free') != -1)
+                if(this.stateService.activeStatuses.indexOf('Free') != -1)
                   if(!locker.OutOfService)
                     this.freeLockers.push(locker);
             });
@@ -51,11 +47,11 @@ export class ListComponent implements OnInit {
   }
 
   getContracts(): void {
-    this.activeLocations.forEach((loc) => {
+    this.stateService.activeLocations.forEach((loc) => {
       this.contractService.getContractsOf(loc)
       .subscribe((contracts: Contract[]) => {
         contracts.forEach((contr: Contract) => {
-          if(this.activeStatuses.indexOf(contr.status)  != -1) {
+          if(this.stateService.activeStatuses.indexOf(contr.status)  != -1) {
             this.contracts.push(contr);
           }
         })
@@ -63,12 +59,10 @@ export class ListComponent implements OnInit {
     })
   }
 
-  private eventSubscribtion!: Subscription;
+  private eventSubscribtion!: Subscription; // refresh list on click in parent
   @Input() parentConsult!: Observable<void>;
 
   loadList() {
-    this.activeLocations = this.stateService.getLocations();
-    this.activeStatuses = this.stateService.getStatuses();
     this.contracts = [];
     this.freeLockers = [];  // temporary ugly solution, re-query every time... (this is what was done previously)
     this.brokenLockers = [];

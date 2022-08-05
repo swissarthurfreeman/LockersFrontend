@@ -6,15 +6,18 @@ import { Location } from "../model/location.model";
     providedIn: 'root'
 })
 export class StateService {
-    locations: Location[] = [];
-    statuses: string[] = [];
+    activeLocations: Location[] = [];   // locations ticked
+    locations: Location[] = []; // all locations at site
+    
+    activeStatuses: string[] = [];  // states ticked
+    statuses = ['Breached', 'Occupied', 'NonRenewed', 'OutOfService', 'Free'];
 
-    getLocations(): Location[] {
-        return this.locations;
+    getActiveLocations(): Location[] {
+        return this.activeLocations;
     }
 
-    getStatuses(): string[] {
-        return this.statuses;
+    getActiveStatuses(): string[] {
+        return this.activeStatuses;
     }
 
     previousUrl!: UrlSegment[];

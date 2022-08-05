@@ -22,4 +22,8 @@ export class LocationService {
             "name": name
         });
     }
+
+    updateLocation(to: Location): Observable<Location> {
+        return this.http.put<Location>(`${environment.apiUrl}/locations/${to.locationId}`, to);
+    }
 }
