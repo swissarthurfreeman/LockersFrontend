@@ -76,12 +76,14 @@ export class SiteComponent implements OnInit {
             this.stateService.activeStatuses.push(key);
           } else {
             // if it's a location, add it to array of selected locations
+            console.log("location name =", key);
             let i = this.stateService.locations.findIndex(loc => loc.name == key );
             this.stateService.activeLocations.push(this.stateService.locations[i]);
           }
         }
       }
     )
+    console.log(this.stateService.activeLocations);
     this.consultClick.next();
   }
 
@@ -140,14 +142,23 @@ export class SiteComponent implements OnInit {
   });
 
   renameLocation(): void {
-    console.log(this.locationRenameForm.value);
-    const location = this.stateService.locations.find(loc => loc.name === this.locationRenameForm.value.oldName)!;
-    console.log(location);
-    location.name = this.locationRenameForm.value.newName!;
-    this.locationService.updateLocation(location)
+    const i = this.stateService.locations.findIndex(loc => loc.name === this.locationRenameForm.value.oldName)!;
+    this.stateService.locations[i].name = this.locationRenameForm.value.newName!;
+    this.locationService.updateLocation(this.stateService.locations[i])
     .subscribe(
-      (updatedLoca) => { console.log("Updated Location to", updatedLoca)},
+      (updatedLoca) => { 
+        this.stateService.locations.splice(i, 1);
+        this.stateService.locations.push(updatedLoca);
+        this.reloadCurrentRoute();
+      },
       (err) => { throw err; }
     );
+  }
+
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
   }
 }
