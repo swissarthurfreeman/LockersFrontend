@@ -98,14 +98,12 @@
         <form [formGroup]="moveForm" (ngSubmit)="moveLocker()">
             <label class="col-form-label">Déplacer ce casier :</label>
             <div class="form-group">
-                <select class="form-control" formControlName="locationId">
+                <ng-container *ngIf="locations && locations[0]"> 
+                    <select [(ngModel)]="locations[0].locationId" class="form-control" formControlName="locationId">
                         <!-- Add all locations across all university here (lockers can be transfered between sites) -->
-                        <ng-container *ngIf="locations">
-                            <ng-container *ngFor="let location of locations">
-                                <option value={{location.locationId}}>{{location.site}}, {{location.name}}</option>
-                            </ng-container>
-                        </ng-container>
-                </select>
+                        <option *ngFor="let location of locations" value={{location.locationId}}>{{location.site}}, {{location.name}}</option>        
+                    </select>
+                </ng-container>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>

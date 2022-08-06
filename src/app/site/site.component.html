@@ -37,16 +37,20 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <p class="lead">Modifier les localisations</p>
-                        <form [formGroup]="locationForm" (ngSubmit)="submitLocation()">
+                        <form [formGroup]="locationForm" (ngSubmit)="submitLocation('addLocationButton')">
                             <div class="form-group form-inline" id="addLocationForm">
                                 <label class="col-form-label" for="newLocation">Rajouter une localisation :</label>
                                 <input id="name" formControlName="name" type="text" required="required" class="form-control input-sm" placeholder="Nouvelle Localisation">
                                 <button type="submit" class="btn btn-primary" onclick="" id="newLocationButton">Rajouter</button>
-                                <div id="addLocationConfirmation"></div>
+                                <ng-container *ngFor="let conf of stateService.confirmations">
+                                    <div *ngIf="conf.button === 'addLocationButton'" class="alert alert-dismissible alert-{{conf.type}}">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        {{conf.message}}.
+                                    </div>
+                                </ng-container>
                             </div>
                         </form>
                         <form [formGroup]="locationRenameForm" (ngSubmit)="renameLocation()">
-                            <!-- TODO : query api to update location -->
                             <div class="form-group">
                                 <label for="exampleSelect1">Renommer une localisation</label>
                                 <select class="form-control" formControlName="oldName">
@@ -58,7 +62,7 @@
                             <div id="locationRenameConfirmation"></div>
                         </form>
                         <hr>
-                        <form [formGroup]="lockerForm" (ngSubmit)="submitLocker()">
+                        <form [formGroup]="lockerForm" (ngSubmit)="submitLocker('addLockerButton')">
                             <p class="lead">Modifier les Casiers :</p>
                             <div class="form-group">
                                 <label class="col-form-label" for="inputDefault">Rajouter un casier :</label>
@@ -85,8 +89,14 @@
                                 <label>Dimensions (largeur/hauteur/profondeur) [cm]</label>
                                 <input formControlName="dimensions" type="text" class="form-control input-sm" placeholder="Dimensions">
                             </div>
-                            <button type="submit" class="btn btn-primary" onclick="">Submit</button>
-                            <div id="lockerAdditionConfirmation"></div>
+                            <button type="submit" class="btn btn-primary" onclick="">Enregistrer</button>
+                            <br>
+                            <ng-container *ngFor="let conf of stateService.confirmations">
+                                <div *ngIf="conf.button === 'addLockerButton'" class="alert alert-dismissible alert-{{conf.type}}">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    {{conf.message}}.
+                                </div>
+                            </ng-container>
                         </form>
                         <hr>
                         <fieldset>

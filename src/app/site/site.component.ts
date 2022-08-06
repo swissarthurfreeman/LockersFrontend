@@ -9,6 +9,7 @@ import { Locker } from '../model/locker.model';
 import { StateService } from '../service/State.service';
 import { Subject } from 'rxjs';
 import { keyframes } from '@angular/animations';
+import { Confirmation } from '../model/confirmation.model';
 
 @Component({
   selector: 'app-site',
@@ -94,11 +95,21 @@ export class SiteComponent implements OnInit {
     name: ''
   });
 
-  submitLocation(): void {
+  submitLocation(buttonId: string): void {
     this.locationService.postLocation("Sciences", this.locationForm.value.name)
     .subscribe(
-      loc => { console.log("Posted location =", loc); },
-      error => { throw error; }
+      loc => { 
+        this.stateService.addConfirmation(new Confirmation("Localisation rajoutée avec succès !", "success", buttonId)); 
+      },
+      error => { 
+        this.stateService.addConfirmation(
+          new Confirmation(
+            "Erreur de rajout de Localisation, assurez vous qu'elle n'y figure pas déjà, message: " + error.error.message, 
+            "danger",
+            "addLocationButton"
+            )
+        );
+      }
     ); 
   }
 
@@ -110,7 +121,7 @@ export class SiteComponent implements OnInit {
     dimensions: '75/80/25'
   })
 
-  submitLocker(): void {
+  submitLocker(buttonId: string): void {
     let newLocker: Locker = new Locker();
     newLocker.number = this.lockerForm.value.number!;
     newLocker.dimensions = this.lockerForm.value.dimensions!;
@@ -126,8 +137,13 @@ export class SiteComponent implements OnInit {
 
     this.lockerService.postLocker(newLocker, loc)
     .subscribe(
-      (locker: Locker) => { console.log("Backend returned ", locker); },
-      error => { throw error; }
+      (locker: Locker) => { 
+        this.stateService.addConfirmation(new Confirmation("Casier rajouté avec succès !", "success", buttonId)); 
+      },
+      error => {
+        console.log(error);
+        this.stateService.addConfirmation(new Confirmation("Erreur de rajout de casier, message : " + error.error.message, "danger", buttonId));
+      }
     );
   }
 
