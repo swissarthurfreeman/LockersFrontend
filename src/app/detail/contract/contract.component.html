@@ -60,7 +60,7 @@
         <h5>Date d'échéance</h5>
     </div>
     <div class="col">
-        <p>{{contract.expiration}}</p>
+        <p>{{this.stateService.getPrettyExpiration(this.contract)}}</p>
     </div>
 </div>         
 <div class="row">
@@ -84,12 +84,14 @@
         <h5>Courriel</h5>
     </div>
     <div class="col">
-        <div class="input-group mb-2">
-            <input type="text" class="form-control" placeholder="{{contract.email}}">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" class="btn btn-warning btn-lg">Mettre à jour</button>
+        <form [formGroup]="emailForm" (ngSubmit)="updateEmail()">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" placeholder="{{contract.email}}" formControlName="email">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" class="btn btn-warning btn-lg">Mettre à jour</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>         
 <div class="row">
@@ -97,22 +99,21 @@
         <h5>Numéro de Natel</h5>
     </div>
     <div class="col">
-        <div class="input-group mb-2">
-            <input type="text" class="form-control" placeholder="{{contract.phone_number}}">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" class="btn btn-warning btn-lg">Mettre à jour</button>
+        <form [formGroup]="phoneNumberForm" (ngSubmit)="updatePhoneNumber()">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" placeholder="{{contract.phone_number}}" formControlName="phone_number">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" class="btn btn-warning btn-lg">Mettre à jour</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
     <hr>
 </div>
+
 <button type="submit" class="btn btn-success btn-lg" (click)="deleteContract(contract.lockerId)">Libérer</button>
-<div id="contractDeletionConfirmation"></div>
-<br>
-<div class="form-group" id="transferLockerForm">
-    <label class="col-form-label" for="transferToEmail">Transférer ce casier à une autre personne</label>
-    <input type="email" required="required" class="form-control input-sm" 
-    placeholder="john.doe@etu.unige.ch | john.doe@unige.ch" id="transferToEmail">
-    <button type="submit" class="btn btn-primary" onclick="transferLocker()">Transférer</button>
-    <div id="contractTransferConfirmation"></div>
-</div>
+
+<div *ngFor="let conf of stateService.confirmations" class="alert alert-dismissible alert-{{conf.type}}">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    {{conf.message}}.
+</div>  

@@ -31,4 +31,8 @@ export class ContractService {
     delete(lockerId: string): Observable<null> {
         return this.http.delete<null>(`${environment.apiUrl}/contracts/${lockerId}`);
     }
+
+    update(contract: Contract): Observable<Contract> {
+        return this.http.put<Contract>(`${environment.apiUrl}/contracts/${contract.lockerId}`, contract);
+    }
 }

@@ -28,9 +28,7 @@ export class ListComponent implements OnInit {
   contracts: Contract[] = [];
   
   getLockers(): void {
-    console.log(this.stateService.activeLocations);
     this.stateService.activeLocations.forEach((loc) => {
-        console.log(loc);
         this.lockerService.getLockersOf(loc)
         .subscribe((lockers) => {
             lockers.forEach((locker) => {

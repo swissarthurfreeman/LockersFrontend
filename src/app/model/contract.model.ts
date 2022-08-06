@@ -13,4 +13,5 @@ export class Contract {
     createdAt!: string;
     updatedAt!: string;
     location!: Location;
+
 }

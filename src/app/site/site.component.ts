@@ -39,34 +39,38 @@ export class SiteComponent implements OnInit {
     
     this.route.paramMap.subscribe(params => { 
       this.siteName = params.get('name')!;  // even though it may look like it could be null, it won't be (!)
-    });
+      this.stateService.locations = [];
+      this.locationService.getLocationsOf(this.siteName)
+      .subscribe(
+        locationList => {
+          locationList.forEach((loc) => {
+            this.stateService.locations.push(loc);
 
-    this.stateService.locations = [];
-    this.locationService.getLocationsOf(this.siteName)
-    .subscribe(
-      locationList => {
-        locationList.forEach((loc) => {
-          this.stateService.locations.push(loc);
-          const control = new FormControl();
-          control.setValue(this.isActiveLoc(loc)); // sets status of checkbox, we can't mix template with FormControl, because AnGuLAR
-          this.listForm.registerControl(loc.name, control); // Register controls for checkboxes
-        });
-        this.lockerForm.setValue({  // fills with pre-defined values locker creation form.
-          number: 1602,
-          verticalPosition: "en hauteur",
-          lock: 'oui',
-          locationName: this.stateService.locations[0].name,
-          dimensions: '75/80/25'
-        })      
-        this.consultClick.next(); // tell child to refresh
-      }
-    )
+            if(this.stateService.activeLocations.length != 0) // these conditions will be true if we've changed site
+              if(this.stateService.activeLocations[0].site != this.siteName)
+                this.stateService.activeLocations = [];
+
+            const control = new FormControl();
+            control.setValue(this.isActiveLoc(loc)); // sets status of checkbox, we can't mix template with FormControl, because AnGuLAR
+            this.listForm.registerControl(loc.name, control); // Register controls for checkboxes
+          });
+          this.lockerForm.setValue({  // fills with pre-defined values locker creation form.
+            number: 1602,
+            verticalPosition: "en hauteur",
+            lock: 'oui',
+            locationName: this.stateService.locations[0].name,
+            dimensions: '75/80/25'
+          })      
+          this.consultClick.next(); // tell child to refresh
+        }
+      )
+    });
   }
 
   consultClick: Subject<void> = new Subject<void>;
 
   displayList() {
-    this.stateService.activeStatuses = [];
+    this.stateService.activeStatuses = [];  // mandatory. location could have changed name or be deleted...
     this.stateService.activeLocations = [];
     
     Object.entries(this.listForm.value).forEach(
@@ -83,7 +87,6 @@ export class SiteComponent implements OnInit {
         }
       }
     )
-    console.log(this.stateService.activeLocations);
     this.consultClick.next();
   }
 
@@ -141,7 +144,7 @@ export class SiteComponent implements OnInit {
     newName: ''
   });
 
-  renameLocation(): void {
+  renameLocation(): void {  // we have to make sure coherence is maintained, one location reference only...
     const i = this.stateService.locations.findIndex(loc => loc.name === this.locationRenameForm.value.oldName)!;
     this.stateService.locations[i].name = this.locationRenameForm.value.newName!;
     this.locationService.updateLocation(this.stateService.locations[i])
@@ -149,7 +152,7 @@ export class SiteComponent implements OnInit {
       (updatedLoca) => { 
         this.stateService.locations.splice(i, 1);
         this.stateService.locations.push(updatedLoca);
-        this.reloadCurrentRoute();
+        this.reloadCurrentRoute();  // just reload it to avoid errors
       },
       (err) => { throw err; }
     );
