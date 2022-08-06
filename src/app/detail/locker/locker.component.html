@@ -66,9 +66,81 @@
     </div>
 </div>
 </ul>
-</ng-container>    
 <hr>
-<ng-container *ngIf="locker">
+<!-- Contract info if it's a user not an admin -->
+<ng-container *ngIf="this.stateService.role === 'user'">
+    <h2><strong>Contrat de prêt de casier</strong></h2>
+    <hr>
+    <h4>Casier et Emplacement Physique</h4>
+    <hr>
+    <p class="lead">Ce contrat s'applique au casier décrit ci-dessus situé au bâtiment de {{locker.location.site}} valable de maintenant jusqu'à {{this.stateService.getExpirationDate()}}.<br>
+    Si vous souhaitez louer ce casier, veuillez prendre connaissance des conditions d'utilisation suivantes.</p>
+    
+    <h4>Conditions d'Utilisation</h4>
+    <hr>
+    <p class="lead">La personne désirant avoir un casier doit être étudiant(e) de l'Université de Genève et suivre des cours dans le bâtiment
+        concerné. <br>
+        Elle doit présenter sa carte multi-services à la loge des huissiers, à des fins de légitimation lors de l'octroi du casier.
+        
+        L'Université de Genève met à disposition des casiers à titre gratuit, l'utilisateur-trice est responsable du matériel qui lui est 
+        prêté et reconnaît que le casier lui a été remis en bon état. 
+    </p>
+    
+    <h4>Prise de Possession</h4>
+    <hr>
+    <p *ngIf="locker.lock" class="lead">
+        Veuillez passer à la loge des huissiers afin que ceux-ci puissent vous fournir la clef du casier. <br>
+        En cas de perte ou de casse de celle-ci, l'Université de Genève se réserve le droit de vous facturer les frais en résultant. <br>
+        En cas de détérioration du matériel, l'Université de Genève se garde le droit de vous facturer la remise en état du casier.
+    </p>
+
+    <p *ngIf="!locker.lock" class="lead">
+        Veuillez passer à la loge des huissiers avec votre carte multiservices après avoir loué le casier en ligne afin que ceux-ci puissent dévérouiller le locket à cadenas. <br>        
+    </p>
+    
+    <h4>Durée et renouvellement</h4>
+    <hr>
+    <p class="lead">
+        Ce contrat est conclu pour une durée d'une année universitaire du {{ this.stateService.getNow() }} au dimanche, {{ this.stateService.getExpirationDate() }}. 
+        En cas de renouvellement, l'utilisateur-trice doit le faire sur ce site entre le {{ this.stateService.getExpirationDate() }} et {{ this.stateService.getRenewalDeadline() }}.
+    </p>
+    <h4>Responsabilité</h4>
+    <hr>
+    <ul>
+        <li><p class="lead">En cas de détérioration du matériel, l'Université de Genève se garde le droit de vous facturer la remise en état du casier.</p></li>
+        <li><p class="lead">L'Université de Genève décline toute responsabilité quand aux objets déposés dans les casiers. Vous êtes invités à n'y déposer aucun objet de valeur.</p></li>
+        <li *ngIf="locker.lock"><p class="lead">Dans le cas où le contrat n'est pas renouvelé avant {{this.stateService.getRenewalDeadline()}}, la loge changera la serrure et videra les affaires qui s'y trouvent.</p></li>
+        <li *ngIf="!locker.lock"><p class="lead">Dans le cas où le contrat n'est pas renouvelé avant {{this.stateService.getRenewalDeadline()}}, la loge cassera le cadenas et videra les affaires qui s'y trouvent.</p></li>
+        <li><p class="lead">Les objets laissés dans les casiers resteront cependant à disposition de l'utilisateur-trice pendant une année à la loge de l'huissier. Passé ce délai, l'Université se résèrve le droit de s'en débarrasser.</p></li>
+    </ul>
+
+    <h4 *ngIf="locker.lock">Fin du contrat et restitution de clef</h4>
+    <h4 *ngIf="!locker.lock">Fin du contrat</h4>
+    <hr>
+    <p *ngIf="locker.lock" class="lead">
+        Le locataire qui ne désire plus utiliser de casier est tenu de restituer la clef du casier à loge avant la fin du contrat, soit au plus tard le {{this.stateService.getRenewalDeadline()}}.
+    </p>    
+    <p *ngIf="!locker.lock" class="lead">
+        Le locataire qui ne désire plus utiliser de casier est tenu de l'annoncer à la loge des huissiers et enlever sont cadenas, au plus tard le {{this.stateService.getRenewalDeadline()}}.
+    </p>    
+         
+    <hr>
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" name="contract" onclick="if(this.checked) {
+            document.getElementById('contractButton').disabled = false;    
+        } else {
+            document.getElementById('contractButton').disabled = true;
+        }" id="contractCheckbox">
+        <label class="custom-control-label" for="contractCheckbox">J'ai pris connaissance des conditions d'utilisation et m'engage à les respecter. <br>
+            Je suis conscient que ceci est un contrat légal et que je peux être trainé en justice sous ses termes.
+        </label>
+    </div>
+    <br>
+    <input (click)="createContract()" id="contractButton" disabled="true" class="btn btn-success btn-lg" value='Louer ce Casier' name='louer'>
+</ng-container>
+
+</ng-container>    
+<ng-container *ngIf="locker && this.stateService.role === 'admin'">
     <ng-container *ngIf="!locker.OutOfService">
     <form [formGroup]="contractForm" (ngSubmit)="createContractAtLocker()">
         <p class="lead">Établir un nouveau contrat à ce casier :</p>
@@ -90,6 +162,8 @@
     </form>
     </ng-container>
 </ng-container>
+
+<ng-container *ngIf="this.stateService.role === 'admin'">
 <h2>Zone de Danger</h2>
 <hr>
 <br>
@@ -100,8 +174,8 @@
             <div class="form-group">
                 <ng-container *ngIf="locations && locations[0]"> 
                     <select [(ngModel)]="locations[0].locationId" class="form-control" formControlName="locationId">
-                        <!-- Add all locations across all university here (lockers can be transfered between sites) -->
-                        <option *ngFor="let location of locations" value={{location.locationId}}>{{location.site}}, {{location.name}}</option>        
+                        <option value={{locations[0].locationId}}>{{locations[0].site}}, {{locations[0].name}}</option>
+                        <option *ngFor="let location of locations.slice(1)" value={{location.locationId}}>{{location.site}}, {{location.name}}</option>        
                     </select>
                 </ng-container>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -142,3 +216,4 @@
     </div>
     <div id="lockerDeletionError"></div>
 </div>
+</ng-container>

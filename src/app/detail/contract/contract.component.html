@@ -79,7 +79,7 @@
         <p>{{contract.status}}</p>
     </div>
 </div>         
-<div class="row">
+<div *ngIf="this.stateService.role === 'admin'" class="row">
     <div class="col">
         <h5>Courriel</h5>
     </div>
@@ -93,8 +93,16 @@
             </div>
         </form>
     </div>
-</div>         
-<div class="row">
+</div>       
+<div *ngIf="this.stateService.role === 'user'" class="row">
+    <div class="col">
+        <h5>Courriel</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.email}}</p>
+    </div>
+</div>  
+<div *ngIf="this.stateService.role === 'admin'" class="row">
     <div class="col">
         <h5>Numéro de Natel</h5>
     </div>
@@ -110,8 +118,16 @@
     </div>
     <hr>
 </div>
+<div *ngIf="this.stateService.role === 'user'" class="row">
+    <div class="col">
+        <h5>Numéro de Natel</h5>
+    </div>
+    <div class="col">
+        <p>{{contract.phone_number}}</p>
+    </div>
+</div>  
 
-<button type="submit" class="btn btn-success btn-lg" (click)="deleteContract(contract.lockerId)">Libérer</button>
+<button *ngIf="this.stateService.role === 'admin'" type="submit" class="btn btn-success btn-lg" (click)="deleteContract(contract.lockerId)">Libérer</button>
 
 <div *ngFor="let conf of stateService.confirmations" class="alert alert-dismissible alert-{{conf.type}}">
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>

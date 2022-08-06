@@ -26,4 +26,8 @@ export class LocationService {
     updateLocation(to: Location): Observable<Location> {
         return this.http.put<Location>(`${environment.apiUrl}/locations/${to.locationId}`, to);
     }
+
+    delete(locationId: string): Observable<null> {
+        return this.http.delete<null>(`${environment.apiUrl}/locations/${locationId}`);
+    }
 }

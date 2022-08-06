@@ -21,7 +21,7 @@ export class LockerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private contractService: ContractService,
     private lockerService: LockerService,
-    private stateService: StateService
+    public stateService: StateService
   ) {}
 
   lockerId!: string;
@@ -111,5 +111,19 @@ export class LockerComponent implements OnInit {
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
     });
+  }
+
+  createContract() {
+    const contr = new Contract();
+    contr.locker = this.locker;
+    this.contractService.postContract(contr)
+    .subscribe(
+      (contr) => {
+        console.log("Successfully created contract at locker " + contr.locker.lockerId);
+      }, 
+      (err) => {
+        console.log("Error in contract creation " + contr.locker.lockerId, err);
+      }
+    );
   }
 }

@@ -13,6 +13,7 @@ import { ListComponent } from './list/list.component';
 import { LockerComponent } from './detail/locker/locker.component';
 import { ContractComponent } from './detail/contract/contract.component';
 import { DetailComponent } from './detail/detail.component';
+import { UserContractsComponent } from './userContracts/usercontracts.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DetailComponent } from './detail/detail.component';
     ListComponent,
     LockerComponent,
     ContractComponent,
-    DetailComponent
+    DetailComponent,
+    UserContractsComponent
   ],
   imports: [
     BrowserModule,

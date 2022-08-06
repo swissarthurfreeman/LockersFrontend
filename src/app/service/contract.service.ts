@@ -14,8 +14,8 @@ export class ContractService {
         return this.http.get<Contract[]>(`${environment.apiUrl}/contracts?site=${location.site}&name=${location.name}`);
     }
 
-    postContract(contract: Contract): Observable<Locker> {
-        return this.http.post<Locker>(`${environment.apiUrl}/contracts`, {
+    postContract(contract: Contract): Observable<Contract> {
+        return this.http.post<Contract>(`${environment.apiUrl}/contracts`, {
             "lockerId": contract.locker.lockerId, 
             "firstname": contract.firstname,
             "lastname": contract.lastname,
@@ -34,5 +34,9 @@ export class ContractService {
 
     update(contract: Contract): Observable<Contract> {
         return this.http.put<Contract>(`${environment.apiUrl}/contracts/${contract.lockerId}`, contract);
+    }
+
+    getContracts(): Observable<Contract[]> {
+        return this.http.get<Contract[]>(`${environment.apiUrl}/contracts`);
     }
 }

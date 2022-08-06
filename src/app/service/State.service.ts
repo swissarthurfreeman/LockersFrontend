@@ -28,6 +28,8 @@ export class StateService {
 
     confirmations: Confirmation[] = [];
     
+    role!: string;
+
     addConfirmation(conf: Confirmation) {
         this.confirmations.push(conf);
         setTimeout(() => this.confirmations.splice(0, 1), 4000);
@@ -37,5 +39,36 @@ export class StateService {
       moment.locale('fr');
       console.log(moment.locale());
       return moment(contr.expiration).format("LL");
-  }
+    }
+
+
+    public contractExpirationDate: string = '-05-15';
+    public contractRenewalDeadline: string = '-06-30';
+
+    public getExpirationDate(now: Date = new Date()): string {
+        const contractExpirationDate = new Date((now.getFullYear()).toString() + this.contractExpirationDate);
+        const contractRenewalDeadline = new Date((now.getFullYear()).toString() + this.contractRenewalDeadline);
+        moment.locale('fr');
+        if(contractRenewalDeadline <= now || 
+            (contractExpirationDate <= now && now <= contractRenewalDeadline)) {
+            const nextYear = now.getFullYear() + 1;
+            
+            return moment(new Date(nextYear.toString() + this.contractExpirationDate)).format("LL");
+        } else {
+            // => now < contractExpirationDate
+            const currYear = now.getFullYear();
+            return moment(new Date(currYear.toString() + this.contractExpirationDate)).format("LL");
+        }
+    }
+
+    public getRenewalDeadline(now: Date = new Date()): string {
+        moment.locale('fr');
+        const currYear = now.getFullYear();
+        return moment(new Date(currYear.toString() + this.contractRenewalDeadline)).format("LL");
+    }
+
+    public getNow() {
+        moment.locale('fr');
+        return moment(new Date()).format("LL");
+    }
 }

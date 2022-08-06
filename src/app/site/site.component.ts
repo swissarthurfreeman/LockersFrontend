@@ -174,6 +174,25 @@ export class SiteComponent implements OnInit {
     );
   }
 
+  locaDeletionForm = this.formBuilder.group({
+    locationId: ''
+  });
+
+  deleteLocation(buttonId: string) {
+    this.locationService.delete(this.locaDeletionForm.value.locationId!)
+    .subscribe(
+      () => {
+        this.stateService.addConfirmation(new Confirmation("Localisation supprimée avec succès", "danger", buttonId));
+      },
+      (error) => {
+        this.stateService.addConfirmation(new Confirmation(
+          "Erreur de suppression de localisation, message : " + error.error.message, 
+          "danger", buttonId
+        ));
+      }
+    )
+  }
+
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {

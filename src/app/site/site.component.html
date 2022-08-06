@@ -7,12 +7,13 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab" tabindex="-1">Consulter le parc des Casiers</a>
             </li>
-            <li class="nav-item" role="presentation">
+            
+            <li *ngIf="this.stateService.role === 'admin'" class="nav-item" role="presentation">
                 <a class="nav-link" data-bs-toggle="tab" href="#edit" aria-selected="false" role="tab" tabindex="-1">Modifier le parc des Casiers</a>
             </li>
         </ul>
         <br>
-        <div id="myTabContent" class="tab-content">
+        <div class="tab-content">
             <div class="tab-pane fade active show" id="home" role="home">
                 <div class="jumbotron bg-dark text-white">
                     <form [formGroup]="listForm" (ngSubmit)="displayList()" class="form-group">
@@ -52,10 +53,12 @@
                         </form>
                         <form [formGroup]="locationRenameForm" (ngSubmit)="renameLocation()">
                             <div class="form-group">
-                                <label for="exampleSelect1">Renommer une localisation</label>
-                                <select class="form-control" formControlName="oldName">
-                                    <option *ngFor="let loc of stateService.locations" value={{loc.name}}>{{loc.name}}</option>
-                                </select>
+                                <label>Renommer une localisation</label>
+                                <ng-container *ngIf="stateService.locations && stateService.locations[0]"> 
+                                    <select class="form-control" formControlName="oldName" [(ngModel)]="stateService.locations[0].name">
+                                        <option *ngFor="let loc of stateService.locations" value={{loc.name}}>{{loc.name}}</option>
+                                    </select>
+                                </ng-container>
                                 <input formControlName="newName" type="text" maxlength="20" class="form-control input-sm" placeholder="Nouveau Nom">      
                             </div>
                             <button type="submit" class="btn btn-primary">Renommer</button>
@@ -99,17 +102,22 @@
                             </ng-container>
                         </form>
                         <hr>
-                        <fieldset>
-                            <div class="form-group">
-                                <h2 class="danger">Zone Dangereuse</h2>
-                                <label for="exampleSelect1">Supprimer une localisation</label>
-                                <select class="form-control" id="locationToDelete" data-site="Bastions">
-                                    <!-- TODO get all locations at site... -->
+                        <h2 class="danger">Zone Dangereuse</h2>
+                        <form [formGroup]="locaDeletionForm" (ngSubmit)="deleteLocation('deleteLocationButton')">
+                            <label>Supprimer une localisation</label>
+                            <ng-container *ngIf="stateService.locations && stateService.locations[0]"> 
+                                <select class="form-control" formControlName="locationId" [(ngModel)]="stateService.locations[0].locationId">
+                                    <option *ngFor="let loc of stateService.locations" value={{loc.locationId}}>{{loc.site}}, {{loc.name}}</option>
                                 </select>
-                            </div>
-                            <button type="submit" class="btn btn-danger" onclick="">Supprimer</button>
-                            <div id="locationDeletionConfirmation"></div>
-                        </fieldset>
+                            </ng-container>    
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                            <ng-container *ngFor="let conf of stateService.confirmations">
+                                <div *ngIf="conf.button === 'deleteLocationButton'" class="alert alert-dismissible alert-{{conf.type}}">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    {{conf.message}}.
+                                </div>
+                            </ng-container>
+                        </form>
                     </div>
                 </div>
             </div>
