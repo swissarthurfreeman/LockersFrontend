@@ -28,15 +28,20 @@
             <div class="tab-pane fade" id="edit" role="tabpanel">
                 <div class="row">
                     <div class="col-lg-4">
-                        <fieldset>
+                        <form [formGroup]="siteForm" (ngSubmit)="submitLocation('addLocButton')">
                             <div class="form-group form-inline">
                                 <label class="col-form-label" for="inputDefault">Rajouter un Site :</label>
-                                <input type="text" class="form-control input-sm" placeholder="Nouveau Site" id="newSiteInput">
-                                <input type="text" class="form-control input-sm" placeholder="Nouvelle Localisation" id="newLocationInput">
+                                <input formControlName="site" type="text" class="form-control input-sm" placeholder="Nouveau Site">
+                                <input formControlName="name" type="text" class="form-control input-sm" placeholder="Nouvelle Localisation">
                             </div>
-                            <button type="submit" class="btn btn-primary" onclick="">Submit</button>
-                        </fieldset>
-                        <div id="siteAdditionConfirmation"></div>
+                            <button type="submit" class="btn btn-primary" id="addLocButton">Enregistrer</button>
+                        </form>
+                        <ng-container *ngFor="let conf of stateService.confirmations">
+                            <div *ngIf="conf.button === 'addLocButton' " class="alert alert-dismissible alert-{{conf.type}}">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                {{conf.message}}.
+                            </div>
+                        </ng-container>
                     </div>
                 </div>
             </div>

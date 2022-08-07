@@ -1,3 +1,4 @@
+<!-- this template generates view for users and admins. Admin has to manage case when out of service or not. -->
 <br>    
 <div class="row">  
 <div class="col">
@@ -142,24 +143,30 @@
 </ng-container>    
 <ng-container *ngIf="locker && this.stateService.role === 'admin'">
     <ng-container *ngIf="!locker.OutOfService">
-    <form [formGroup]="contractForm" (ngSubmit)="createContractAtLocker()">
-        <p class="lead">Établir un nouveau contrat à ce casier :</p>
-        <div class="form-group">
-            <label class="col-form-label" for="inputDefault">Nom</label>
-            <input type="text" class="form-control input-sm" placeholder="Doe" formControlName="lastname">
-            
-            <label for="firstname">Prénom</label>
-            <input type="text" class="form-control input-sm" placeholder="John" formControlName="firstname">
-            
-            <label for="number">Numéro</label>
-            <input type="tel" class="form-control input-sm" placeholder="+41 12 345 67 89 (optionel)" formControlName="phone_number">
-            
-            <label for="email">Courriel</label>
-            <input type="text" class="form-control input-sm" placeholder="nom.prenom@etu.unige.ch | @unige.ch (obligatoire)" formControlName="email">
-            <br>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+        <form [formGroup]="contractForm" (ngSubmit)="createContractAtLocker('adminCreateContractButton')">
+            <p class="lead">Établir un nouveau contrat à ce casier :</p>
+            <div class="form-group">
+                <label class="col-form-label" for="inputDefault">Nom</label>
+                <input type="text" class="form-control input-sm" placeholder="Doe" formControlName="lastname">
+                
+                <label for="firstname">Prénom</label>
+                <input type="text" class="form-control input-sm" placeholder="John" formControlName="firstname">
+                
+                <label for="number">Numéro</label>
+                <input type="tel" class="form-control input-sm" placeholder="+41 12 345 67 89 (optionel)" formControlName="phone_number">
+                
+                <label for="email">Courriel</label>
+                <input type="text" class="form-control input-sm" placeholder="nom.prenom@etu.unige.ch | @unige.ch (obligatoire)" formControlName="email">
+                <br>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <ng-container *ngFor="let conf of stateService.confirmations">
+            <div *ngIf="conf.button === 'adminCreateContractButton' " class="alert alert-dismissible alert-{{conf.type}}">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{conf.message}}.
+            </div>
+        </ng-container>
     </ng-container>
 </ng-container>
 

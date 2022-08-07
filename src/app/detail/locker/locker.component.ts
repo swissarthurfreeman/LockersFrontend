@@ -8,6 +8,7 @@ import { Contract } from 'src/app/model/contract.model';
 import { ContractService } from 'src/app/service/contract.service';
 import { LockerService } from 'src/app/service/locker.service';
 import { StateService } from 'src/app/service/State.service';
+import { Confirmation } from 'src/app/model/confirmation.model';
 
 @Component({
   selector: 'app-locker',
@@ -60,7 +61,7 @@ export class LockerComponent implements OnInit {
     });
   }
 
-  createContractAtLocker(): void {
+  createContractAtLocker(buttonId: string): void {
     let contr = new Contract();
     contr.email = this.contractForm.value.email!;
     contr.phone_number = this.contractForm.value.phone_number!;
@@ -72,7 +73,14 @@ export class LockerComponent implements OnInit {
     this.contractService.postContract(contr)
     .subscribe((contr) => {
       this.reloadCurrentRoute();
-    }, (err) => { throw err; });
+    }, (err) => {
+      this.stateService.addConfirmation(
+        new Confirmation(
+          "Erreur de Création de Contrat, assurez vous que l'email et le numéro de natel soient valides, message : " + err.error.message,
+          "danger",
+          buttonId)
+      )
+    });
   }
 
   moveLocker() {

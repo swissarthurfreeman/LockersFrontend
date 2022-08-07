@@ -47,7 +47,7 @@ export class ContractComponent implements OnInit {
         this.stateService.addConfirmation(new Confirmation("Email mis-à-jour avec succès", "success"));
       },
       (err) => {
-        this.stateService.addConfirmation(new Confirmation("Format d'email incorrect", "danger"));
+        this.stateService.addConfirmation(new Confirmation("Format d'email incorrect, message : " + err.error.message, "danger"));
       }
     );
   }

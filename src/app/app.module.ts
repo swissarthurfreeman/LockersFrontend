@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SiteComponent } from './site/site.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './navigation/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +14,9 @@ import { LockerComponent } from './detail/locker/locker.component';
 import { ContractComponent } from './detail/contract/contract.component';
 import { DetailComponent } from './detail/detail.component';
 import { UserContractsComponent } from './userContracts/usercontracts.component';
+import { AboutComponent } from './navigation/about/about.component';
+import { ContactComponent } from './navigation/contact/contact.component';
+import { NotFound } from './navigation/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { UserContractsComponent } from './userContracts/usercontracts.component'
     LockerComponent,
     ContractComponent,
     DetailComponent,
-    UserContractsComponent
+    UserContractsComponent,
+    AboutComponent,
+    ContactComponent,
+    NotFound
   ],
   imports: [
     BrowserModule,

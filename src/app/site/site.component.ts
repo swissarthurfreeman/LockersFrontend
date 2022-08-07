@@ -44,25 +44,29 @@ export class SiteComponent implements OnInit {
       this.locationService.getLocationsOf(this.siteName)
       .subscribe(
         locationList => {
-          locationList.forEach((loc) => {
-            this.stateService.locations.push(loc);
+          if(locationList.length === 0) { 
+            this.router.navigate(['notfound'])  // site doesn't exist 
+          } else {
+            locationList.forEach((loc) => {
+              this.stateService.locations.push(loc);
 
-            if(this.stateService.activeLocations.length != 0) // these conditions will be true if we've changed site
-              if(this.stateService.activeLocations[0].site != this.siteName)
-                this.stateService.activeLocations = [];
+              if(this.stateService.activeLocations.length != 0) // these conditions will be true if we've changed site
+                if(this.stateService.activeLocations[0].site != this.siteName)
+                  this.stateService.activeLocations = [];
 
-            const control = new FormControl();
-            control.setValue(this.isActiveLoc(loc)); // sets status of checkbox, we can't mix template with FormControl, because AnGuLAR
-            this.listForm.registerControl(loc.name, control); // Register controls for checkboxes
-          });
-          this.lockerForm.setValue({  // fills with pre-defined values locker creation form.
-            number: 1602,
-            verticalPosition: "en hauteur",
-            lock: 'oui',
-            locationName: this.stateService.locations[0].name,
-            dimensions: '75/80/25'
-          })      
-          this.consultClick.next(); // tell child to refresh
+              const control = new FormControl();
+              control.setValue(this.isActiveLoc(loc)); // sets status of checkbox, we can't mix template with FormControl, because AnGuLAR
+              this.listForm.registerControl(loc.name, control); // Register controls for checkboxes
+            });
+            this.lockerForm.setValue({  // fills with pre-defined values locker creation form.
+              number: 1602,
+              verticalPosition: "en hauteur",
+              lock: 'oui',
+              locationName: this.stateService.locations[0].name,
+              dimensions: '75/80/25'
+            })      
+            this.consultClick.next(); // tell child to refresh
+          }
         }
       )
     });
@@ -142,7 +146,9 @@ export class SiteComponent implements OnInit {
       },
       error => {
         console.log(error);
-        this.stateService.addConfirmation(new Confirmation("Erreur de rajout de casier, message : " + error.error.message, "danger", buttonId));
+        this.stateService.addConfirmation(
+          new Confirmation("Erreur de rajout de casier, ce numéro de casier existe déjà à cette localisation, message : " + error.error.message, 
+          "danger", buttonId));
       }
     );
   }

@@ -42,7 +42,7 @@ export class DetailComponent implements OnInit {
                 this.isContract = false;
             }, (err) => {
                 console.log(err.message);
-                console.log("404 Not Found !!");
+                this.router.navigate(['notfound']);
             })
         })
       });
