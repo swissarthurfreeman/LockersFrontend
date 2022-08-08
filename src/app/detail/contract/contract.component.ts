@@ -20,15 +20,23 @@ export class ContractComponent implements OnInit {
     public stateService: StateService
   ) {}
 
-  @Input()
   contract!: Contract;
+
+  lockerId!: string;
 
   emailForm = this.formBuilder.group({ email: new FormControl() });
   phoneNumberForm = this.formBuilder.group({ phone_number: new FormControl() });
 
   ngOnInit(): void {
-    this.emailForm.controls.email.setValue(this.contract.email);  // fill values of controls once we've got em
-    this.phoneNumberForm.controls.phone_number.setValue(this.contract.phone_number);
+    this.route.paramMap.subscribe(params => { 
+      this.lockerId = params.get('lockerId')!;
+      this.contractService.getContractBy(this.lockerId)
+      .subscribe((contract: Contract) => {
+        this.contract = contract;
+        this.emailForm.controls.email.setValue(this.contract.email);  // fill values of controls once we've got em
+        this.phoneNumberForm.controls.phone_number.setValue(this.contract.phone_number);
+      });
+    });
   }
 
   deleteContract(lockerId: string) {
@@ -37,6 +45,18 @@ export class ContractComponent implements OnInit {
       this.reloadCurrentRoute();
     },
     (err) => { throw err; });
+  }
+
+  renewContract(lockerId: string) {
+    this.contractService.renew(lockerId)
+    .subscribe(
+      (contr) => { 
+        console.log(contr);
+        this.contract = contr;
+        this.stateService.addConfirmation(new Confirmation("Contrat renouvelé avec succès", "success")); 
+      },
+      (err) => { this.stateService.addConfirmation(new Confirmation("Erreur de renouvellement de contrat, message : " + err.error.message, "danger")); }
+    )
   }
   
   updateEmail() {

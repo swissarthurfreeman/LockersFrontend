@@ -36,6 +36,10 @@ export class ContractService {
         return this.http.put<Contract>(`${environment.apiUrl}/contracts/${contract.lockerId}`, contract);
     }
 
+    renew(lockerId: string): Observable<Contract> {
+        return this.http.put<Contract>(`${environment.apiUrl}/contracts/${lockerId}`, {});
+    }
+
     getContracts(): Observable<Contract[]> {
         return this.http.get<Contract[]>(`${environment.apiUrl}/contracts`);
     }

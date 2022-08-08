@@ -100,6 +100,14 @@
                     </div>
                 </div>
                 <button *ngIf="contract.status === 'NonRenewed'" type="submit" class="btn btn-warning btn-lg" (click)="renewContract(contract.lockerId)">Renouveler</button>
+                <ng-container *ngIf="contract.status === 'Breached'">
+                    <p class="lead text-danger">Vous êtes en rupture de contrat ! Contactez votre loge tout de suite avant que vos affaires soient vidées !</p>
+                    <p *ngIf="contract.locker.lock" class="lead text-danger">En cas d'annulation, veuillez restituer la clef à la loge ou son remplacement vous sera facturé.</p>
+                </ng-container>
+                <div *ngFor="let conf of stateService.confirmations" class="alert alert-dismissible alert-{{conf.type}}">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    {{conf.message}}.
+                </div>
             </ul>
         </div>
     </ng-container>

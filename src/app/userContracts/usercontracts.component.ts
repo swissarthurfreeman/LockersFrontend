@@ -13,7 +13,11 @@ import { StateService } from '../service/State.service';
 })
 export class UserContractsComponent implements OnInit {
 
-  constructor(public contractService: ContractService, public stateService: StateService) {}
+  constructor(
+    public contractService: ContractService, 
+    public stateService: StateService,
+    public router: Router
+  ) {}
 
   contracts: Contract[] = [];
 
@@ -31,6 +35,24 @@ export class UserContractsComponent implements OnInit {
   }
 
   renewContract(lockerId: string) {
-    console.log("Renewing contract...");
+    let contr = this.contracts.find((contr) => { return contr.lockerId === lockerId })!;
+    this.contractService.update(contr)
+    .subscribe(
+      (updated) => { 
+        contr = updated;
+        this.reloadCurrentRoute();
+      },
+      (err) => { throw err; }
+    );
+    
+    /*contract.lockerId = lockerId;
+    console.log("Renewing contract...");*/
+  }
+
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
   }
 }

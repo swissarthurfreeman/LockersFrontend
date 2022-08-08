@@ -4,7 +4,7 @@
         <ng-container *ngIf="!!contract || !!locker">   <!-- Contract or locker must be loaded -->
             <ul class="list-group">
                 <ng-container *ngIf="this.isContract">
-                    <app-contract [contract]="contract"></app-contract>
+                    <app-contract></app-contract>
                 </ng-container>       
                 <ng-container *ngIf="!this.isContract">
                     <app-locker></app-locker>

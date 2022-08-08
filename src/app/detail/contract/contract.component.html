@@ -7,6 +7,7 @@
 </div>
 </div>
 <hr>
+<ng-container *ngIf="!!contract">
  <div class="row">
     <div class="col">
         <h5>Numéro</h5>
@@ -127,8 +128,20 @@
     </div>
 </div>  
 
-<button *ngIf="this.stateService.role === 'admin'" type="submit" class="btn btn-success btn-lg" (click)="deleteContract(contract.lockerId)">Libérer</button>
+<div class="row">
+    <div class="col">
+        <button *ngIf="contract.status === 'NonRenewed'" type="submit" class="btn btn-warning btn-lg" (click)="renewContract(contract.lockerId)">Renouveler</button>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col">
+        <button *ngIf="this.stateService.role === 'admin'" type="submit" class="btn btn-danger btn-lg" (click)="deleteContract(contract.lockerId)">Libérer</button>
 
+    </div>
+</div>
+
+</ng-container>
 <div *ngFor="let conf of stateService.confirmations" class="alert alert-dismissible alert-{{conf.type}}">
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     {{conf.message}}.
