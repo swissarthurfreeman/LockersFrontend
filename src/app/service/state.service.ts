@@ -5,11 +5,24 @@ import { Confirmation } from "../model/confirmation.model";
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import { Contract } from "../model/contract.model";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class StateService {
+
+    firstname: string = 'Jane';
+    lastname: string = 'Doe';
+    group: string = 'user';
+    email: string = 'jane@doe.co';
+
+    constructor(private http: HttpClient) {}
+
+    getCredentials(): Observable<any> { return this.http.get<any>(`${environment.apiUrl}/whoami`) };
+
     activeLocations: Location[] = [];   // locations ticked
     locations: Location[] = []; // all locations at site
     
@@ -37,7 +50,6 @@ export class StateService {
 
     public getPrettyExpiration(contr: Contract): string {
       moment.locale('fr');
-      console.log(moment.locale());
       return moment(contr.expiration).format("LL");
     }
 

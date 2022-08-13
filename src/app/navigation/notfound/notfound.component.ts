@@ -11,17 +11,7 @@ import { ContractService } from 'src/app/service/contract.service';
 })
 export class NotFound implements OnInit {
 
-  constructor(
-    private contractService: ContractService,
-    private router: Router
-  ) {}
+  constructor() {}
   
-  ngOnInit(): void {
-    this.contractService.getContracts()
-    .subscribe((contracts: Contract[]) => {
-      if(contracts.length > 0) {
-        this.router.navigate(['contracts']);
-      }
-    })
-  }
+  ngOnInit(): void {}
 }

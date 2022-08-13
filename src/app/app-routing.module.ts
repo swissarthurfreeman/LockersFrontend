@@ -16,7 +16,8 @@ const routes: Routes = [
   {path: "site/:name/:lockerId", component: DetailComponent},
   {path: "contracts", component: UserContractsComponent},
   {path: "contact", component: ContactComponent},
-  {path: "about", component: AboutComponent}
+  {path: "about", component: AboutComponent},
+  {path: "**", component: NotFound}
 ];
 
 @NgModule({

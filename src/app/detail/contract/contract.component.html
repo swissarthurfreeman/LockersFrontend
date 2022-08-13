@@ -69,7 +69,7 @@
         <h5>Serrure (e.g. requiert clef de loge)</h5>
     </div>
     <div class="col">
-        <p>{{contract.locker.lock}}</p>
+        <p>{{this.translator.translate(contract.locker.lock.toString())}}</p>
     </div>
 </div>         
 <div class="row">
@@ -80,7 +80,7 @@
         <p>{{contract.status}}</p>
     </div>
 </div>         
-<div *ngIf="this.stateService.role === 'admin'" class="row">
+<div *ngIf="this.stateService.group === 'admin'" class="row">
     <div class="col">
         <h5>Courriel</h5>
     </div>
@@ -95,7 +95,7 @@
         </form>
     </div>
 </div>       
-<div *ngIf="this.stateService.role === 'user'" class="row">
+<div *ngIf="this.stateService.group === 'user'" class="row">
     <div class="col">
         <h5>Courriel</h5>
     </div>
@@ -103,7 +103,7 @@
         <p>{{contract.email}}</p>
     </div>
 </div>  
-<div *ngIf="this.stateService.role === 'admin'" class="row">
+<div *ngIf="this.stateService.group === 'admin'" class="row">
     <div class="col">
         <h5>Numéro de Natel</h5>
     </div>
@@ -119,7 +119,7 @@
     </div>
     <hr>
 </div>
-<div *ngIf="this.stateService.role === 'user'" class="row">
+<div *ngIf="this.stateService.group === 'user'" class="row">
     <div class="col">
         <h5>Numéro de Natel</h5>
     </div>
@@ -136,7 +136,7 @@
 <br>
 <div class="row">
     <div class="col">
-        <button *ngIf="this.stateService.role === 'admin'" type="submit" class="btn btn-danger btn-lg" (click)="deleteContract(contract.lockerId)">Libérer</button>
+        <button *ngIf="this.stateService.group === 'admin'" type="submit" class="btn btn-danger btn-lg" (click)="deleteContract(contract.lockerId)">Libérer</button>
 
     </div>
 </div>

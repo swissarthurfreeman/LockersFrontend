@@ -69,7 +69,7 @@
 </ul>
 <hr>
 <!-- Contract info if it's a user not an admin -->
-<ng-container *ngIf="this.stateService.role === 'user'">
+<ng-container *ngIf="this.stateService.group === 'user'">
     <h2><strong>Contrat de prêt de casier</strong></h2>
     <hr>
     <h4>Casier et Emplacement Physique</h4>
@@ -141,7 +141,7 @@
 </ng-container>
 
 </ng-container>    
-<ng-container *ngIf="locker && this.stateService.role === 'admin'">
+<ng-container *ngIf="locker && this.stateService.group === 'admin'">
     <ng-container *ngIf="!locker.OutOfService">
         <form [formGroup]="contractForm" (ngSubmit)="createContractAtLocker('adminCreateContractButton')">
             <p class="lead">Établir un nouveau contrat à ce casier :</p>
@@ -170,7 +170,7 @@
     </ng-container>
 </ng-container>
 
-<ng-container *ngIf="this.stateService.role === 'admin'">
+<ng-container *ngIf="this.stateService.group === 'admin'">
 <h2>Zone de Danger</h2>
 <hr>
 <br>

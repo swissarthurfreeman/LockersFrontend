@@ -6,17 +6,16 @@ import { FormBuilder, FormControl, FormControlDirective } from '@angular/forms';
 import { Location } from "../model/location.model";
 import { LockerService } from '../service/locker.service';
 import { Locker } from '../model/locker.model';
-import { StateService } from '../service/State.service';
+import { StateService } from '../service/state.service';
 import { Subject } from 'rxjs';
-import { keyframes } from '@angular/animations';
 import { Confirmation } from '../model/confirmation.model';
+import { TranslatorService } from '../service/translator.service';
 
 @Component({
   selector: 'app-site',
   templateUrl: './site.component.html',
 })
 export class SiteComponent implements OnInit {
-
   constructor(
     private router: Router,
     private route: ActivatedRoute, 
@@ -24,6 +23,7 @@ export class SiteComponent implements OnInit {
     private formBuilder: FormBuilder,
     private lockerService: LockerService,
     public stateService: StateService,
+    public translator: TranslatorService
   ) {}
 
   siteName!: string;
@@ -85,7 +85,6 @@ export class SiteComponent implements OnInit {
             this.stateService.activeStatuses.push(key);
           } else {
             // if it's a location, add it to array of selected locations
-            console.log("location name =", key);
             let i = this.stateService.locations.findIndex(loc => loc.name == key );
             this.stateService.activeLocations.push(this.stateService.locations[i]);
           }

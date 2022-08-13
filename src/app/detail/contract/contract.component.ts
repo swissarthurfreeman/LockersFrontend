@@ -4,8 +4,9 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Contract } from '../../model/contract.model';
 import { ContractService } from '../../service/contract.service';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { StateService } from 'src/app/service/State.service';
+import { StateService } from 'src/app/service/state.service';
 import { Confirmation } from 'src/app/model/confirmation.model';
+import { TranslatorService } from 'src/app/service/translator.service';
 
 @Component({
   selector: 'app-contract',
@@ -17,7 +18,8 @@ export class ContractComponent implements OnInit {
     private route: ActivatedRoute, 
     private contractService: ContractService,
     private formBuilder: FormBuilder,
-    public stateService: StateService
+    public stateService: StateService,
+    public translator: TranslatorService
   ) {}
 
   contract!: Contract;
@@ -51,7 +53,6 @@ export class ContractComponent implements OnInit {
     this.contractService.renew(lockerId)
     .subscribe(
       (contr) => { 
-        console.log(contr);
         this.contract = contr;
         this.stateService.addConfirmation(new Confirmation("Contrat renouvelé avec succès", "success")); 
       },

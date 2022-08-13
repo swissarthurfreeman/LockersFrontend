@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Contract } from './model/contract.model';
 import { ContractService } from './service/contract.service';
-import { LocationService } from './service/location.service';
-import { StateService } from './service/State.service';
+import { StateService } from './service/state.service';
 
 @Component({
   selector: 'app-root',
@@ -12,39 +11,31 @@ import { StateService } from './service/State.service';
 export class AppComponent {
   title = 'LockerFrontend';
   constructor(
-    private router: Router, 
-    private locationService: LocationService,
+    private router: Router,
     public stateService: StateService,
     public contractService: ContractService
     ) {
   }
-  userContracts: Contract[] = [];
 
   // check wether user or admin and if user redirect if has a contract.
   ngOnInit() {
     // here call rest api and get the sites
-    console.log("App initialised");
-    this.locationService.delete("kjsdgnjlsdgnsdljkgnmlsdlks")
-    .subscribe(
-      (nothing) => { 
-        this.stateService.role = 'admin';
-        console.log("Successfully deleted nothing, this is an admin account"); 
-      },
-      (err) => { 
-        this.stateService.role = 'user';
-        console.log("Access forbidden, this is not an admin account", err);
+    this.stateService.getCredentials()
+    .subscribe((val: any) => {
+      this.stateService.firstname = val.firstname;
+      this.stateService.lastname = val.lastname;
+      this.stateService.group = val.group;
+      this.stateService.email = val.email;
+
+      if(this.stateService.group === 'user') {
         this.stateService.statuses = ['Free'];
-        if(this.stateService.role === 'user') { // check user has a contract or not
-          this.contractService.getContracts()
-          .subscribe((contracts: Contract[]) => {
-            if(contracts.length > 0) {
-              this.userContracts = contracts;
-              console.log("You already have contracts mate, time to render them !");
-              this.router.navigate(['/contracts']);
-            }
-          })
-        }
+        this.contractService.getContracts() // check user has a contract or not
+        .subscribe((contracts: Contract[]) => {
+          if(contracts.length > 0) {
+            this.router.navigate(['/contracts']);
+          }
+        })
       }
-    )
+    })
   }
 }

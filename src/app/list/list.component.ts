@@ -7,7 +7,7 @@ import { Location } from '../model/location.model';
 import { Contract } from '../model/contract.model';
 import { ContractService } from '../service/contract.service';
 import { Observable, Subscription } from 'rxjs';
-import { StateService } from '../service/State.service';
+import { StateService } from '../service/state.service';
 
 @Component({
   selector: 'app-list',

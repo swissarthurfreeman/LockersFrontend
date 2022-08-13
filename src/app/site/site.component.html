@@ -8,7 +8,7 @@
                 <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab" tabindex="-1">Consulter le parc des Casiers</a>
             </li>
             
-            <li *ngIf="this.stateService.role === 'admin'" class="nav-item" role="presentation">
+            <li *ngIf="this.stateService.group === 'admin'" class="nav-item" role="presentation">
                 <a class="nav-link" data-bs-toggle="tab" href="#edit" aria-selected="false" role="tab" tabindex="-1">Modifier le parc des Casiers</a>
             </li>
         </ul>
@@ -27,7 +27,7 @@
                         <div *ngFor="let stat of stateService.statuses" class="custom-control custom-checkbox" class="form-check">
                             <label class="form-check-label">
                             <input formControlName="{{stat}}" type="checkbox" class="form-check-input" [attr.value]="isActiveStat(stat)">
-                            {{stat}}</label> <!-- TODO : french translation here -->
+                            {{this.translator.translate(stat)}}</label> <!-- TODO : french translation here -->
                         </div>
                         <button type="submit" class="btn btn-primary">Consulter</button>
                     </form>

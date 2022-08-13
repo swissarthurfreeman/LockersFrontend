@@ -3,7 +3,8 @@ import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ContractService } from '../service/contract.service';
 import { Contract } from '../model/contract.model';
-import { StateService } from '../service/State.service';
+import { StateService } from '../service/state.service';
+import { TranslatorService } from '../service/translator.service';
 // here we gotta query the api filtering locations at the app site
 // and dump them into an array. We also get statuses of lockers.
 
@@ -16,7 +17,8 @@ export class UserContractsComponent implements OnInit {
   constructor(
     public contractService: ContractService, 
     public stateService: StateService,
-    public router: Router
+    public router: Router,
+    public translator: TranslatorService
   ) {}
 
   contracts: Contract[] = [];
@@ -44,9 +46,6 @@ export class UserContractsComponent implements OnInit {
       },
       (err) => { throw err; }
     );
-    
-    /*contract.lockerId = lockerId;
-    console.log("Renewing contract...");*/
   }
 
   reloadCurrentRoute() {

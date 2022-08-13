@@ -7,7 +7,7 @@ import { FormBuilder } from '@angular/forms';
 import { Contract } from 'src/app/model/contract.model';
 import { ContractService } from 'src/app/service/contract.service';
 import { LockerService } from 'src/app/service/locker.service';
-import { StateService } from 'src/app/service/State.service';
+import { StateService } from 'src/app/service/state.service';
 import { Confirmation } from 'src/app/model/confirmation.model';
 
 @Component({

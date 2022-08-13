@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { StateService } from '../service/State.service';
+import { StateService } from '../service/state.service';
 import { ContractService } from '../service/contract.service';
 import { LocationService } from '../service/location.service';
 import { FormBuilder } from '@angular/forms';

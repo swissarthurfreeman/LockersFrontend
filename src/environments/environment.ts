@@ -4,7 +4,7 @@
 
 export const environment: any = {
   production: false,
-  apiUrl: 'https://casiers.unige.ch/api'
+  apiUrl: 'http://localhost:8080'
 };
 
 /*
