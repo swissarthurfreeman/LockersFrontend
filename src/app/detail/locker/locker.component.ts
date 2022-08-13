@@ -127,8 +127,9 @@ export class LockerComponent implements OnInit {
     this.contractService.postContract(contr)
     .subscribe(
       (contr) => {
+        this.router.navigateByUrl('/contracts');
         console.log("Successfully created contract at locker " + contr.locker.lockerId);
-      }, 
+      },
       (err) => {
         console.log("Error in contract creation " + contr.locker.lockerId, err);
       }
