@@ -11,6 +11,7 @@ export class ContractService {
     constructor(private http: HttpClient) {}
     
     getContractsOf(location: Location): Observable<Contract[]> {
+        console.log(location);
         return this.http.get<Contract[]>(`${environment.apiUrl}/contracts?site=${location.site}&name=${location.name}`);
     }
 

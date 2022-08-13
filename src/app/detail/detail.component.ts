@@ -34,8 +34,7 @@ export class DetailComponent implements OnInit {
             this.contract = contr;
             this.isContract = true;
         }, (err) => {
-            console.log(err.message);
-            console.log("Contract not found, trying lockers");
+            console.log("Contract not found, trying lockers " + err.message);
             this.lockerService.getLockerBy(this.lockerId)
             .subscribe((locker) => {
                 this.locker = locker;

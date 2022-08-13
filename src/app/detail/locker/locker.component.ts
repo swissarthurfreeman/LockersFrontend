@@ -131,7 +131,7 @@ export class LockerComponent implements OnInit {
         console.log("Successfully created contract at locker " + contr.locker.lockerId);
       },
       (err) => {
-        console.log("Error in contract creation " + contr.locker.lockerId, err);
+        throw err;
       }
     );
   }

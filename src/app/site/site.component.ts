@@ -144,7 +144,6 @@ export class SiteComponent implements OnInit {
         this.stateService.addConfirmation(new Confirmation("Casier rajouté avec succès !", "success", buttonId)); 
       },
       error => {
-        console.log(error);
         this.stateService.addConfirmation(
           new Confirmation("Erreur de rajout de casier, ce numéro de casier existe déjà à cette localisation, message : " + error.error.message, 
           "danger", buttonId));

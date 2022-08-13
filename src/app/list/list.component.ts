@@ -31,15 +31,17 @@ export class ListComponent implements OnInit {
     this.stateService.activeLocations.forEach((loc) => {
         this.lockerService.getLockersOf(loc)
         .subscribe((lockers) => {
-            lockers.forEach((locker) => {
-                if(this.stateService.activeStatuses.indexOf('OutOfService') != -1)
-                  if(locker.OutOfService)
-                    this.brokenLockers.push(locker);
+          lockers.forEach((locker) => {
+              if(this.stateService.activeStatuses.indexOf('OutOfService') != -1)
+                if(locker.OutOfService)
+                  this.brokenLockers.push(locker);
 
-                if(this.stateService.activeStatuses.indexOf('Free') != -1)
-                  if(!locker.OutOfService)
-                    this.freeLockers.push(locker);
-            });
+              if(this.stateService.activeStatuses.indexOf('Free') != -1)
+                if(!locker.OutOfService)
+                  this.freeLockers.push(locker);
+          });
+          this.freeLockers.sort((l1, l2) => l1.number - l2.number);
+          this.brokenLockers.sort((l1, l2) => l1.number - l2.number);
         })
     });
   }
@@ -49,11 +51,15 @@ export class ListComponent implements OnInit {
       this.contractService.getContractsOf(loc)
       .subscribe((contracts: Contract[]) => {
         contracts.forEach((contr: Contract) => {
-          if(this.stateService.activeStatuses.indexOf(contr.status)  != -1) {
+          if(this.stateService.activeStatuses.indexOf(contr.status) != -1) {
             this.contracts.push(contr);
           }
         })
-      }, (error) => { throw error; })
+        this.contracts.sort((c1, c2) => {
+          console.log(c1); 
+          return c1.locker.number - c2.locker.number 
+        });
+      });
     })
   }
 
