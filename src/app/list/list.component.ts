@@ -56,7 +56,6 @@ export class ListComponent implements OnInit {
           }
         })
         this.contracts.sort((c1, c2) => {
-          console.log(c1); 
           return c1.locker.number - c2.locker.number 
         });
       });
